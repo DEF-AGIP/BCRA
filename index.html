@@ -1022,18 +1022,14 @@
       f3.innerHTML = list.map(i => `<option value="${i.id}">${i.label}</option>`).join('');
     }
 
-    function updateHeaderStatusDates(lastUpdateIso, isLiveApi = false) {
+    function updateHeaderStatusDates(lastUpdateIso) {
       const fechaStock = getLatest(1275).fecha || getLatest(1341).fecha;
       const fechaMercado = getLatest(5).fecha || getLatest(4).fecha || fechaStock;
 
       document.getElementById('records-summary-label').textContent =
         `Cierre Cartera (T-2 BCRA): ${formatDateShort(fechaStock)} · Mercado/TC al: ${formatDateShort(fechaMercado)}`;
 
-      if (isLiveApi) {
-        const now = new Date();
-        document.getElementById('status-update-label').textContent =
-          `En vivo API BCRA (${now.toLocaleDateString('es-AR')} ${now.toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit' })})`;
-      } else if (lastUpdateIso) {
+      if (lastUpdateIso) {
         const d = new Date(lastUpdateIso);
         document.getElementById('status-update-label').textContent =
           `Actualizado: ${d.toLocaleDateString('es-AR')} ${d.toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit' })}`;
@@ -1043,46 +1039,7 @@
         `Seguimiento diario de Tipo de Cambio (${formatDateShort(fechaMercado)}), Inflación/CER/UVA, Stock de Deuda (${formatDateShort(fechaStock)}) y Tasas`;
     }
 
-    // Sincronización híbrida en vivo con la API pública v4.0 del BCRA desde el navegador
-    async function syncLiveCatalogFromBcra() {
-      try {
-        const [r0, r1] = await Promise.all([
-          fetch('https://api.bcra.gob.ar/estadisticas/v4.0/monetarias?offset=0&limit=1000'),
-          fetch('https://api.bcra.gob.ar/estadisticas/v4.0/monetarias?offset=1000&limit=1000')
-        ]);
-        if (!r0.ok || !r1.ok) return;
-        const j0 = await r0.json();
-        const j1 = await r1.json();
-        const allLive = [...(j0.results || []), ...(j1.results || [])];
-
-        let updatedAny = false;
-        allLive.forEach(item => {
-          const vid = item.idVariable;
-          if (!varCatalog[vid] && !varHistory[String(vid)]) return;
-          varCatalog[vid] = { ...varCatalog[vid], ...item };
-          const hist = varHistory[String(vid)];
-          if (Array.isArray(hist) && item.ultFechaInformada && item.ultValorInformado !== undefined) {
-            const lastPt = hist[hist.length - 1];
-            if (!lastPt || item.ultFechaInformada > lastPt.fecha) {
-              hist.push({ fecha: item.ultFechaInformada, valor: Number(item.ultValorInformado) });
-              updatedAny = true;
-            } else if (item.ultFechaInformada === lastPt.fecha && Number(lastPt.valor) !== Number(item.ultValorInformado)) {
-              lastPt.valor = Number(item.ultValorInformado);
-              updatedAny = true;
-            }
-          }
-        });
-
-        updateHeaderStatusDates(null, true);
-        if (updatedAny) {
-          refreshDashboard();
-        }
-      } catch (e) {
-        // Si el navegador bloquea o falla la red, sigue operando normalmente con data/bcra_data.json
-      }
-    }
-
-    // Cargar datos desde data/bcra_data.json y luego sincronizar últimos cierres en vivo con API BCRA
+    // Cargar datos desde data/bcra_data.json
     async function loadBcraData() {
       const statusMsg = document.getElementById('status-message');
       try {
@@ -1097,13 +1054,10 @@
 
         const lastUpdateIso = bcraData.metadata?.last_update || '';
         statusMsg.textContent = `Datos oficiales BCRA sincronizados (${bcraData.variables?.length || 0} series monetarias y de crédito activas).`;
-        updateHeaderStatusDates(lastUpdateIso, false);
+        updateHeaderStatusDates(lastUpdateIso);
 
         configureControlsForMainGroup();
         refreshDashboard();
-
-        // Sincronizar en segundo plano contra la API en vivo del BCRA por si hubo publicaciones posteriores al JSON
-        syncLiveCatalogFromBcra();
       } catch (err) {
         console.error('Error cargando bcra_data.json:', err);
         statusMsg.textContent = 'Error al leer data/bcra_data.json.';

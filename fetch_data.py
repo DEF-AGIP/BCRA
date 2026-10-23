@@ -91,6 +91,30 @@ def main():
             vid, serie = future.result()
             history[str(vid)] = serie
 
+    # Regla lógica de consistencia: asegurar que el Total de Préstamos y todas sus líneas
+    # aperturadas (IDs 1275 a 1368) compartan exactamente la misma fecha de cierre (sin cortes a mitad de carga).
+    loan_ids = [vid for vid in VARIABLE_IDS if 1275 <= vid <= 1368]
+    last_dates = [
+        history[str(vid)][-1]["fecha"]
+        for vid in loan_ids
+        if history.get(str(vid))
+    ]
+    if last_dates:
+        common_cutoff_date = min(last_dates)
+        max_seen_date = max(last_dates)
+        if common_cutoff_date != max_seen_date:
+            print(f"[INFO] Normalizando cierre de préstamos a fecha común sincronizada: {common_cutoff_date} (detectado desfasaje hasta {max_seen_date})")
+            for vid in loan_ids:
+                s_vid = str(vid)
+                if s_vid in history:
+                    history[s_vid] = [pt for pt in history[s_vid] if pt["fecha"] <= common_cutoff_date]
+            for v_meta in selected_variables:
+                if 1275 <= v_meta["idVariable"] <= 1368:
+                    serie_norm = history.get(str(v_meta["idVariable"]), [])
+                    if serie_norm:
+                        v_meta["ultFechaInformada"] = serie_norm[-1]["fecha"]
+                        v_meta["ultValorInformado"] = serie_norm[-1]["valor"]
+
     art_tz = timezone(timedelta(hours=-3))
     now_iso = datetime.now(art_tz).isoformat()
 
