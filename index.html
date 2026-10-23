@@ -1014,12 +1014,16 @@
 
     function populateIndicesFilter3() {
       const fam = document.getElementById('filter-1').value;
+      const modo = document.getElementById('filter-2').value;
       const f3 = document.getElementById('filter-3');
       document.getElementById('label-filter-3').textContent = 'Índice / Cotización';
 
       const filtered = INDICES_ITEMS.filter(i => i.familia === fam);
       const list = filtered.length > 0 ? filtered : INDICES_ITEMS;
       f3.innerHTML = list.map(i => `<option value="${i.id}">${i.label}</option>`).join('');
+      if (fam === 'IPC' && modo === 'VAR_IA') {
+        f3.value = '28';
+      }
     }
 
     function updateHeaderStatusDates(lastUpdateIso) {
@@ -1378,7 +1382,7 @@
         borderColor: itemFoco.color || '#4f46e5',
         backgroundColor: 'rgba(79, 70, 229, 0.12)',
         fill: true
-      }], v => `${formatNumber(v, 2)}%`);
+      }], v => `${formatNumber(v, 2)}%`, '', '%');
 
       // Gráfico Derecho: Comparativa de las tasas que pertenecen al grupo activo
       const groupItems = TASAS_ITEMS.filter(t => {
@@ -1455,9 +1459,27 @@
         'PF Jurídicas / Prest. Financieros:', `${formatNumber(getLatest(1192).valor, 2)}% / ${formatNumber(getLatest(1191).valor, 2)}%`);
     }
 
+    // Calcula la variación porcentual interanual (365 días) para cualquier serie histórica
+    function computeInterannualPctSeries(rawSeries, fullHistory) {
+      if (!rawSeries || rawSeries.length === 0) return [];
+      const allHist = fullHistory && fullHistory.length > 0 ? fullHistory : rawSeries;
+      return rawSeries.map(p => {
+        const target = new Date(new Date(p.fecha).getTime() - 365 * 86400 * 1000);
+        let refVal = Number(allHist[0]?.valor || p.valor);
+        for (let i = allHist.length - 1; i >= 0; i--) {
+          if (new Date(allHist[i].fecha) <= target) {
+            refVal = Number(allHist[i].valor);
+            break;
+          }
+        }
+        const pct = refVal > 0 ? ((Number(p.valor) - refVal) / refVal) * 100 : 0;
+        return { fecha: p.fecha, valor: pct };
+      });
+    }
+
     // ==================== VISTA 3: ÍNDICES Y TIPO DE CAMBIO ====================
     function renderIndicesView(familia, modoVisual, selectedId, rangeDays) {
-      const itemFoco = INDICES_ITEMS.find(i => i.id === selectedId) || INDICES_ITEMS[0];
+      let itemFoco = INDICES_ITEMS.find(i => i.id === selectedId) || INDICES_ITEMS[0];
       const isMonthly = isSeriesMonthly(varHistory[String(itemFoco.id)] || [], itemFoco.id);
       const effectiveDays = isMonthly ? Math.max(rangeDays, 365) : rangeDays;
       const rawSeries = filterSeriesByDays(varHistory[String(itemFoco.id)] || [], effectiveDays);
@@ -1466,19 +1488,7 @@
       let badgeUnit = itemFoco.unit;
 
       if (modoVisual === 'VAR_IA' && rawSeries.length > 2 && familia !== 'IPC') {
-        const allHist = varHistory[String(itemFoco.id)] || [];
-        plotSeries = rawSeries.map(p => {
-          const target = new Date(new Date(p.fecha).getTime() - 365 * 86400 * 1000);
-          let refVal = Number(allHist[0]?.valor || p.valor);
-          for (let i = allHist.length - 1; i >= 0; i--) {
-            if (new Date(allHist[i].fecha) <= target) {
-              refVal = Number(allHist[i].valor);
-              break;
-            }
-          }
-          const pct = refVal > 0 ? ((Number(p.valor) - refVal) / refVal) * 100 : 0;
-          return { fecha: p.fecha, valor: pct };
-        });
+        plotSeries = computeInterannualPctSeries(rawSeries, varHistory[String(itemFoco.id)] || []);
         badgeUnit = 'Var. % i.a.';
       }
 
@@ -1488,25 +1498,40 @@
         : `Evolución histórica oficial publicada por el BCRA (${isMonthly ? 'Periodicidad Mensual' : 'Periodicidad Diaria'})`;
       document.getElementById('chart-left-badge').textContent = badgeUnit;
 
+      const leftYPrefix = (modoVisual === 'VAR_IA' || familia === 'IPC') ? '' : itemFoco.prefix;
+      const leftYSuffix = (modoVisual === 'VAR_IA' || familia === 'IPC') ? '%' : itemFoco.suffix;
+
       drawLineChart('chart-left-canvas', true, plotSeries.map(p => formatChartAxisDate(p.fecha, isMonthly)), [{
         label: itemFoco.label,
         data: plotSeries.map(p => p.valor),
         borderColor: itemFoco.color,
         backgroundColor: 'rgba(139, 92, 246, 0.12)',
         fill: true
-      }], v => modoVisual === 'VAR_IA' && familia !== 'IPC' ? `${formatNumber(v, 1)}% i.a.` : `${itemFoco.prefix}${formatNumber(v, 2)}${itemFoco.suffix}`);
+      }], v => modoVisual === 'VAR_IA' && familia !== 'IPC'
+        ? `${formatNumber(v, 1)}% i.a.`
+        : `${itemFoco.prefix}${formatNumber(v, familia === 'IPC' ? 1 : 2)}${itemFoco.suffix}`,
+      leftYPrefix, leftYSuffix);
 
       // Gráfico Derecho: Dinámica comparada de toda la familia seleccionada
-      const famItems = INDICES_ITEMS.filter(i => i.familia === familia);
+      let famItems = INDICES_ITEMS.filter(i => i.familia === familia);
+      if (familia === 'IPC' && modoVisual === 'VAR_IA') {
+        // En modo Variación Interanual para IPC, comparar las dos curvas anuales (IPC Interanual vs REM 12M) en la misma escala
+        famItems = famItems.filter(i => i.id !== 27);
+      }
+
       const famIsMonthly = isSeriesMonthly(varHistory[String(famItems[0].id)] || [], famItems[0].id);
       const baseHistory = filterSeriesByDays(varHistory[String(famItems[0].id)] || [], effectiveDays);
       const dateKeys = baseHistory.map(p => p.fecha);
       const labelsRight = dateKeys.map(d => formatChartAxisDate(d, famIsMonthly));
 
       const datasetsRight = famItems.map(cfg => {
-        const h = varHistory[String(cfg.id)] || [];
+        const fullH = varHistory[String(cfg.id)] || [];
+        const sourceSeries = (modoVisual === 'VAR_IA' && familia !== 'IPC')
+          ? computeInterannualPctSeries(filterSeriesByDays(fullH, effectiveDays), fullH)
+          : fullH;
+
         const map = {};
-        h.forEach(r => { map[r.fecha] = Number(r.valor); });
+        sourceSeries.forEach(r => { map[r.fecha] = Number(r.valor); });
         let lastVal = null;
         const aligned = dateKeys.map(d => {
           if (map[d] !== undefined) lastVal = map[d];
@@ -1525,14 +1550,26 @@
       });
 
       const famTitles = {
-        TC: 'Comparativa de Tipos de Cambio (Com. A 3500, Minorista, Contable y Bandas)',
-        IPC: 'Evolución de Inflación Mensual, Interanual y Expectativa REM (%)',
-        CER_UVA: 'Evolución Comparada de Coeficientes CER y UVA'
+        TC: modoVisual === 'VAR_IA'
+          ? 'Variación Interanual Comparada de Tipos de Cambio (% i.a.)'
+          : 'Comparativa de Tipos de Cambio (Com. A 3500, Minorista, Contable y Bandas)',
+        IPC: modoVisual === 'VAR_IA'
+          ? 'Comparativa Anual: Inflación Interanual (IPC) vs. Expectativa REM 12M (%)'
+          : 'Evolución de Inflación Mensual, Interanual y Expectativa REM (%)',
+        CER_UVA: modoVisual === 'VAR_IA'
+          ? 'Variación Interanual Comparada de CER y UVA (% i.a.)'
+          : 'Evolución Comparada de Coeficientes CER y UVA'
       };
       document.getElementById('chart-right-title').textContent = famTitles[familia];
       document.getElementById('chart-right-subtitle').textContent = famIsMonthly
         ? 'Series mensuales expresadas en formato Mes/Año (MM/AAAA)'
-        : 'Series diarias superpuestas para evaluar la dinámica conjunta del grupo';
+        : (modoVisual === 'VAR_IA' ? 'Variación porcentual interanual (365 días) de cada serie del grupo' : 'Series diarias superpuestas para evaluar la dinámica conjunta del grupo');
+
+      const allRightVals = datasetsRight.flatMap(d => d.data).filter(v => v !== null && !isNaN(v));
+      const rightSpan = allRightVals.length > 1 ? (Math.max(...allRightVals) - Math.min(...allRightVals)) : 100;
+      const rightDecimals = rightSpan > 0 && rightSpan < 15 ? 1 : 0;
+      const rightSuffix = (familia === 'IPC' || modoVisual === 'VAR_IA') ? '%' : '';
+      const rightPrefix = (familia === 'TC' && modoVisual !== 'VAR_IA') ? '$ ' : '';
 
       const ctxR = document.getElementById('chart-right-canvas').getContext('2d');
       if (chartRightInstance) chartRightInstance.destroy();
@@ -1544,11 +1581,22 @@
           maintainAspectRatio: false,
           interaction: { mode: 'index', intersect: false },
           plugins: {
-            legend: { position: 'top', labels: { boxWidth: 10, font: { size: 10, family: 'Inter' } } }
+            legend: { position: 'top', labels: { boxWidth: 10, font: { size: 10, family: 'Inter' } } },
+            tooltip: {
+              callbacks: {
+                label: c => ` ${c.dataset.label}: ${rightPrefix}${formatNumber(c.raw, familia === 'IPC' || modoVisual === 'VAR_IA' ? 1 : 2)}${rightSuffix}`
+              }
+            }
           },
           scales: {
             x: { grid: { display: false }, ticks: { maxTicksLimit: 8, font: { size: 10 } } },
-            y: { grid: { color: '#f1f5f9' }, ticks: { font: { size: 10 } } }
+            y: {
+              grid: { color: '#f1f5f9' },
+              ticks: {
+                font: { size: 10 },
+                callback: v => `${rightPrefix}${formatNumber(v, rightDecimals)}${rightSuffix}`
+              }
+            }
           }
         }
       });
@@ -1585,9 +1633,13 @@
     }
 
     // Helper para dibujar el gráfico izquierdo de serie histórica
-    function drawLineChart(canvasId, isLeft, labels, datasets, tooltipFormatter) {
+    function drawLineChart(canvasId, isLeft, labels, datasets, tooltipFormatter, yPrefix = '', ySuffix = '') {
       const ctx = document.getElementById(canvasId).getContext('2d');
       if (isLeft && chartLeftInstance) chartLeftInstance.destroy();
+
+      const allVals = datasets.flatMap(d => d.data).filter(v => v !== null && !isNaN(v));
+      const valSpan = allVals.length > 1 ? (Math.max(...allVals) - Math.min(...allVals)) : 100;
+      const yDecimals = valSpan > 0 && valSpan < 15 ? 1 : 0;
 
       const chart = new Chart(ctx, {
         type: 'line',
@@ -1615,7 +1667,13 @@
           },
           scales: {
             x: { grid: { display: false }, ticks: { maxTicksLimit: 8, font: { size: 10 } } },
-            y: { grid: { color: '#f1f5f9' }, ticks: { font: { size: 10 }, callback: v => formatNumber(v, 0) } }
+            y: {
+              grid: { color: '#f1f5f9' },
+              ticks: {
+                font: { size: 10 },
+                callback: v => `${yPrefix}${formatNumber(v, yDecimals)}${ySuffix}`
+              }
+            }
           }
         }
       });
@@ -1644,9 +1702,9 @@
         btn.addEventListener('click', () => {
           mainGroup = btn.getAttribute('data-main-group');
           document.querySelectorAll('.main-group-btn').forEach(b => {
-            b.className = 'main-group-btn px-3 py-1.5 rounded-lg text-xs font-semibold transition text-slate-600 hover:text-slate-900 flex items-center gap-1.5';
+            b.className = 'main-group-btn px-3 py-1.5 rounded-lg text-xs font-semibold transition text-slate-600 hover:text-slate-900 flex items-center gap-1.5 whitespace-nowrap';
           });
-          btn.className = 'main-group-btn px-3 py-1.5 rounded-lg text-xs font-bold transition bg-sky-600 text-white shadow-sm flex items-center gap-1.5';
+          btn.className = 'main-group-btn px-3 py-1.5 rounded-lg text-xs font-bold transition bg-sky-600 text-white shadow-sm flex items-center gap-1.5 whitespace-nowrap';
           configureControlsForMainGroup();
           refreshDashboard();
         });
@@ -1661,6 +1719,12 @@
 
       document.getElementById('filter-2').addEventListener('change', () => {
         if (mainGroup === 'TASAS') populateTasasFilter3();
+        else if (mainGroup === 'INDICES' && document.getElementById('filter-1').value === 'IPC') {
+          const modo = document.getElementById('filter-2').value;
+          const f3 = document.getElementById('filter-3');
+          if (modo === 'VAR_IA' && f3.value === '27') f3.value = '28';
+          else if (modo === 'NIVEL' && f3.value === '28') f3.value = '27';
+        }
         refreshDashboard();
       });
 
