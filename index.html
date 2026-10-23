@@ -121,7 +121,7 @@
       
       <!-- KPI 1: Stock de Deuda / Préstamos (Inicia en Total y conserva elección al cambiar pestaña) -->
       <div class="bg-white rounded-2xl p-4 border border-slate-200 shadow-sm relative overflow-hidden flex flex-col justify-between">
-        <div class="absolute -right-3 -bottom-3 text-sky-100 text-7xl opacity-40 pointer-events-none">
+        <div class="absolute -right-3 -bottom-3 text-sky-100 text-7xl opacity-20 pointer-events-none">
           <i class="fa-solid fa-vault"></i>
         </div>
         <div>
@@ -129,18 +129,20 @@
             <span id="kpi-stock-label" class="text-[11px] font-semibold uppercase tracking-wider text-slate-500">Stock Préstamos (Total)</span>
             <span class="p-1.5 rounded-xl bg-sky-50 text-sky-600 text-xs"><i class="fa-solid fa-sack-dollar"></i></span>
           </div>
-          <div id="kpi-stock-total" class="text-xl sm:text-2xl font-extrabold text-slate-900 tracking-tight">$ 0 M</div>
+          <div class="flex items-baseline gap-1.5">
+            <span id="kpi-stock-total" class="text-xl sm:text-2xl font-extrabold text-slate-900 tracking-tight whitespace-nowrap">$ 0 M</span>
+          </div>
           <div id="kpi-stock-var" class="text-[11px] font-semibold text-emerald-600 mt-0.5">—</div>
         </div>
         <div class="mt-2.5 text-[11px] text-slate-500 flex items-center justify-between pt-2 border-t border-slate-100">
           <span>Otra moneda:</span>
-          <span id="kpi-stock-alt-currency" class="font-semibold text-slate-700">USD 0 M</span>
+          <span id="kpi-stock-alt-currency" class="font-semibold text-slate-700 whitespace-nowrap">USD 0 M</span>
         </div>
       </div>
 
       <!-- KPI 2: Tasas de Líneas de Crédito (Ponderada por Stock + Mayor peso como ref.) -->
       <div class="bg-white rounded-2xl p-4 border border-slate-200 shadow-sm relative overflow-hidden flex flex-col justify-between">
-        <div class="absolute -right-3 -bottom-3 text-indigo-100 text-7xl opacity-40 pointer-events-none">
+        <div class="absolute -right-3 -bottom-3 text-indigo-100 text-7xl opacity-20 pointer-events-none">
           <i class="fa-solid fa-percent"></i>
         </div>
         <div>
@@ -149,20 +151,20 @@
             <span class="p-1.5 rounded-xl bg-indigo-50 text-indigo-600 text-xs"><i class="fa-solid fa-credit-card"></i></span>
           </div>
           <div class="flex items-baseline gap-1.5">
-            <span id="kpi-tasa-activa-pond" class="text-xl sm:text-2xl font-extrabold text-indigo-950 tracking-tight">0,00%</span>
-            <span class="text-[10px] font-semibold text-indigo-600 bg-indigo-50 px-1.5 py-0.5 rounded">Pond. s/Stock</span>
+            <span id="kpi-tasa-activa-pond" class="text-xl sm:text-2xl font-extrabold text-indigo-950 tracking-tight whitespace-nowrap">0,00%</span>
+            <span class="text-[10px] font-semibold text-indigo-600 bg-indigo-50 px-1.5 py-0.5 rounded whitespace-nowrap">Pond. s/Stock</span>
           </div>
           <div id="kpi-tasa-activa-var" class="text-[11px] font-semibold text-slate-600 mt-0.5">—</div>
         </div>
         <div class="mt-2.5 text-[11px] text-slate-500 flex items-center justify-between pt-2 border-t border-slate-100">
-          <span id="kpi-tasa-activa-ref-label">Mayor peso:</span>
-          <span id="kpi-tasa-activa-ref-val" class="font-semibold text-slate-800">—</span>
+          <span id="kpi-tasa-activa-ref-label" class="truncate mr-1">Mayor peso:</span>
+          <span id="kpi-tasa-activa-ref-val" class="font-semibold text-slate-800 whitespace-nowrap">—</span>
         </div>
       </div>
 
       <!-- KPI 3: Tasas de Plazos Fijos (Ponderada Total + Mayor peso como ref.) -->
       <div class="bg-white rounded-2xl p-4 border border-slate-200 shadow-sm relative overflow-hidden flex flex-col justify-between">
-        <div class="absolute -right-3 -bottom-3 text-emerald-100 text-7xl opacity-40 pointer-events-none">
+        <div class="absolute -right-3 -bottom-3 text-emerald-100 text-7xl opacity-20 pointer-events-none">
           <i class="fa-solid fa-piggy-bank"></i>
         </div>
         <div>
@@ -171,20 +173,20 @@
             <span class="p-1.5 rounded-xl bg-emerald-50 text-emerald-600 text-xs"><i class="fa-solid fa-building-lock"></i></span>
           </div>
           <div class="flex items-baseline gap-1.5">
-            <span id="kpi-tasa-pf-total" class="text-xl sm:text-2xl font-extrabold text-emerald-700 tracking-tight">0,00%</span>
-            <span class="text-[10px] font-semibold text-emerald-700 bg-emerald-50 px-1.5 py-0.5 rounded">Pond. PF $</span>
+            <span id="kpi-tasa-pf-total" class="text-xl sm:text-2xl font-extrabold text-emerald-700 tracking-tight whitespace-nowrap">0,00%</span>
+            <span class="text-[10px] font-semibold text-emerald-700 bg-emerald-50 px-1.5 py-0.5 rounded whitespace-nowrap">Pond. PF $</span>
           </div>
           <div id="kpi-tasa-pf-var" class="text-[11px] font-semibold text-slate-600 mt-0.5">—</div>
         </div>
         <div class="mt-2.5 text-[11px] text-slate-500 flex items-center justify-between pt-2 border-t border-slate-100">
-          <span id="kpi-tasa-pf-ref-label">Mayor peso (7-59d):</span>
-          <span id="kpi-tasa-pf-ref-val" class="font-semibold text-emerald-700 font-mono">0,00% TNA</span>
+          <span id="kpi-tasa-pf-ref-label" class="truncate mr-1">Mayor peso (7-59d):</span>
+          <span id="kpi-tasa-pf-ref-val" class="font-semibold text-emerald-700 font-mono whitespace-nowrap">0,00% TNA</span>
         </div>
       </div>
 
       <!-- KPI 4: Tipo de Cambio BCRA (Referencia Com. A 3500 + Var. i.a. + Mayorista / Minorista) -->
       <div class="bg-white rounded-2xl p-4 border border-slate-200 shadow-sm relative overflow-hidden flex flex-col justify-between">
-        <div class="absolute -right-3 -bottom-3 text-amber-100 text-7xl opacity-40 pointer-events-none">
+        <div class="absolute -right-3 -bottom-3 text-amber-100 text-7xl opacity-20 pointer-events-none">
           <i class="fa-solid fa-dollar-sign"></i>
         </div>
         <div>
@@ -193,20 +195,20 @@
             <span class="p-1.5 rounded-xl bg-amber-50 text-amber-600 text-xs"><i class="fa-solid fa-money-bill-transfer"></i></span>
           </div>
           <div class="flex items-baseline gap-1.5">
-            <span id="kpi-tc-mayorista" class="text-xl sm:text-2xl font-extrabold text-slate-900 tracking-tight">$ 0,00</span>
-            <span class="text-[10px] font-semibold text-amber-700 bg-amber-50 px-1.5 py-0.5 rounded">Com. A 3500</span>
+            <span id="kpi-tc-mayorista" class="text-xl sm:text-2xl font-extrabold text-slate-900 tracking-tight whitespace-nowrap">$ 0,00</span>
+            <span class="text-[10px] font-semibold text-amber-700 bg-amber-50 px-1.5 py-0.5 rounded whitespace-nowrap">A 3500</span>
           </div>
           <div id="kpi-tc-var-ia" class="text-[11px] font-semibold text-amber-700 mt-0.5">—</div>
         </div>
         <div class="mt-2.5 text-[11px] text-slate-500 flex items-center justify-between pt-2 border-t border-slate-100">
-          <span>May. / Min.:</span>
-          <span id="kpi-tc-refs" class="font-semibold text-slate-800">$ 0,00 / $ 0,00</span>
+          <span class="whitespace-nowrap mr-1">May. / Min.:</span>
+          <span id="kpi-tc-refs" class="font-semibold text-slate-800 whitespace-nowrap">$ 0,00 / $ 0,00</span>
         </div>
       </div>
 
       <!-- KPI 5: Inflación IPC (con Mes explícito) + CER / UVA -->
       <div class="bg-white rounded-2xl p-4 border border-slate-200 shadow-sm relative overflow-hidden flex flex-col justify-between">
-        <div class="absolute -right-3 -bottom-3 text-purple-100 text-7xl opacity-40 pointer-events-none">
+        <div class="absolute -right-3 -bottom-3 text-purple-100 text-7xl opacity-20 pointer-events-none">
           <i class="fa-solid fa-chart-line"></i>
         </div>
         <div>
@@ -215,14 +217,14 @@
             <span class="p-1.5 rounded-xl bg-purple-50 text-purple-600 text-xs"><i class="fa-solid fa-arrow-trend-up"></i></span>
           </div>
           <div class="flex items-baseline gap-2">
-            <span id="kpi-ipc-mensual" class="text-xl sm:text-2xl font-extrabold text-slate-900 tracking-tight">0,0%</span>
-            <span id="kpi-ipc-interanual" class="text-xs font-bold text-purple-700">0,0% i.a.</span>
+            <span id="kpi-ipc-mensual" class="text-xl sm:text-2xl font-extrabold text-slate-900 tracking-tight whitespace-nowrap">0,0%</span>
+            <span id="kpi-ipc-interanual" class="text-xs font-bold text-purple-700 whitespace-nowrap">0,0% i.a.</span>
           </div>
           <div id="kpi-rem-12m" class="text-[11px] font-medium text-slate-500 mt-0.5">REM 12M: 0,0%</div>
         </div>
         <div class="mt-2.5 text-[11px] text-slate-500 flex items-center justify-between pt-2 border-t border-slate-100">
-          <span>CER / UVA:</span>
-          <span id="kpi-cer-uva" class="font-semibold text-purple-800 font-mono">0,00 / $ 0,00</span>
+          <span class="whitespace-nowrap mr-1">CER / UVA:</span>
+          <span id="kpi-cer-uva" class="font-semibold text-purple-800 font-mono whitespace-nowrap">0,00 / $ 0,00</span>
         </div>
       </div>
 
@@ -230,60 +232,61 @@
 
     <!-- STICKY FILTERS TOOLBAR (SIEMPRE VISIBLE AL HACER SCROLL, AGRUPADO EN STOCKS / TASAS / ÍNDICES) -->
     <section class="sticky top-2 z-40 bg-white/95 backdrop-blur-md rounded-2xl shadow-md border border-sky-200/80 p-3.5 transition-all">
-      <div class="flex flex-col xl:flex-row xl:items-center xl:justify-between gap-3.5">
+      <div class="flex flex-col xl:flex-row xl:items-end xl:justify-between gap-3">
         
-        <!-- Primary Category Switcher: STOCKS | TASAS | ÍNDICES + Resumen activo -->
-        <div class="flex flex-wrap items-center gap-2.5">
-          <div class="flex items-center gap-1.5 font-semibold text-xs text-slate-700 mr-1">
-            <i class="fa-solid fa-sliders text-sky-600"></i>
-            <span>Dimensión:</span>
+        <!-- Primary Category Switcher: STOCKS | TASAS | ÍNDICES + Resumen activo arriba -->
+        <div class="flex flex-col gap-1 shrink-0">
+          <div class="flex items-center gap-2">
+            <span class="text-[10px] font-semibold uppercase tracking-wider text-slate-500 flex items-center gap-1">
+              <i class="fa-solid fa-sliders text-sky-600"></i> Dimensión
+            </span>
+            <span id="active-filter-badge" class="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-sky-50 text-sky-800 border border-sky-200 truncate max-w-[260px]">
+              Stocks · Total Sectores · Moneda Nacional
+            </span>
           </div>
-          <div class="inline-flex bg-slate-100 p-1 rounded-xl border border-slate-200">
-            <button type="button" data-main-group="STOCKS" class="main-group-btn px-3 py-1.5 rounded-lg text-xs font-bold transition bg-sky-600 text-white shadow-sm flex items-center gap-1.5">
+          <div class="inline-flex bg-slate-100 p-0.5 rounded-xl border border-slate-200 self-start">
+            <button type="button" data-main-group="STOCKS" class="main-group-btn px-3 py-1.5 rounded-lg text-xs font-bold transition bg-sky-600 text-white shadow-sm flex items-center gap-1.5 whitespace-nowrap">
               <i class="fa-solid fa-layer-group text-[11px]"></i>
               <span>Stocks</span>
             </button>
-            <button type="button" data-main-group="TASAS" class="main-group-btn px-3 py-1.5 rounded-lg text-xs font-semibold transition text-slate-600 hover:text-slate-900 flex items-center gap-1.5">
+            <button type="button" data-main-group="TASAS" class="main-group-btn px-3 py-1.5 rounded-lg text-xs font-semibold transition text-slate-600 hover:text-slate-900 flex items-center gap-1.5 whitespace-nowrap">
               <i class="fa-solid fa-percent text-[11px]"></i>
               <span>Tasas</span>
             </button>
-            <button type="button" data-main-group="INDICES" class="main-group-btn px-3 py-1.5 rounded-lg text-xs font-semibold transition text-slate-600 hover:text-slate-900 flex items-center gap-1.5">
+            <button type="button" data-main-group="INDICES" class="main-group-btn px-3 py-1.5 rounded-lg text-xs font-semibold transition text-slate-600 hover:text-slate-900 flex items-center gap-1.5 whitespace-nowrap">
               <i class="fa-solid fa-chart-line text-[11px]"></i>
               <span>Índices y TC</span>
             </button>
           </div>
-          <span id="active-filter-badge" class="text-[11px] font-semibold px-2.5 py-1 rounded-full bg-sky-50 text-sky-800 border border-sky-200">
-            Stocks · Total Sectores · Moneda Nacional
-          </span>
         </div>
 
-        <!-- Adaptive Filter Controls -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-2.5 flex-grow max-w-4xl">
+        <!-- Adaptive Filter Controls (100% alineados en una sola línea) -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-2.5 items-end flex-grow">
           
           <!-- Dynamic Filter 1 (Sector en Stocks / Subgrupo en Tasas / Familia en Índices) -->
           <div>
-            <label id="label-filter-1" for="filter-1" class="block text-[10px] font-semibold text-slate-500 uppercase tracking-wider mb-0.5">Sector de Deuda</label>
+            <label id="label-filter-1" for="filter-1" class="block text-[10px] font-semibold text-slate-500 uppercase tracking-wider mb-1 whitespace-nowrap truncate">Sector de Deuda</label>
             <select id="filter-1" class="w-full text-xs bg-slate-50 border border-slate-300 rounded-lg px-2.5 py-1.5 focus:ring-2 focus:ring-sky-500 focus:outline-none transition font-semibold text-slate-800">
             </select>
           </div>
 
           <!-- Dynamic Filter 2 (Moneda en Stocks / Tipo en Tasas / Medición en Índices) -->
           <div>
-            <label id="label-filter-2" for="filter-2" class="block text-[10px] font-semibold text-slate-500 uppercase tracking-wider mb-0.5">Moneda de Cartera</label>
+            <label id="label-filter-2" for="filter-2" class="block text-[10px] font-semibold text-slate-500 uppercase tracking-wider mb-1 whitespace-nowrap truncate">Moneda de Cartera</label>
             <select id="filter-2" class="w-full text-xs bg-slate-50 border border-slate-300 rounded-lg px-2.5 py-1.5 focus:ring-2 focus:ring-sky-500 focus:outline-none transition font-medium text-slate-800">
             </select>
           </div>
 
-          <!-- Dynamic Filter 3 (Variable / Línea específica para ver en Serie Histórica) -->
+          <!-- Dynamic Filter 3 (Variable / Línea específica sin 'Serie Foco') -->
           <div>
-            <label id="label-filter-3" for="filter-3" class="block text-[10px] font-semibold text-slate-500 uppercase tracking-wider mb-0.5">Variable / Serie Foco</label>
+            <label id="label-filter-3" for="filter-3" class="block text-[10px] font-semibold text-slate-500 uppercase tracking-wider mb-1 whitespace-nowrap truncate">Línea de Crédito</label>
             <select id="filter-3" class="w-full text-xs bg-slate-50 border border-slate-300 rounded-lg px-2.5 py-1.5 focus:ring-2 focus:ring-sky-500 focus:outline-none transition font-medium text-slate-800">
             </select>
           </div>
 
           <!-- Filter 4: Horizonte Temporal -->
           <div>
-            <label for="filter-rango" class="block text-[10px] font-semibold text-slate-500 uppercase tracking-wider mb-0.5">Horizonte Temporal</label>
+            <label for="filter-rango" class="block text-[10px] font-semibold text-slate-500 uppercase tracking-wider mb-1 whitespace-nowrap truncate">Horizonte Temporal</label>
             <select id="filter-rango" class="w-full text-xs bg-slate-50 border border-slate-300 rounded-lg px-2.5 py-1.5 focus:ring-2 focus:ring-sky-500 focus:outline-none transition font-medium text-slate-800">
               <option value="30">Últimos 30 días</option>
               <option value="90">Últimos 90 días</option>
@@ -296,8 +299,8 @@
         </div>
 
         <!-- Reset Button -->
-        <div class="flex items-end">
-          <button id="btn-reset-filters" class="w-full sm:w-auto px-3 py-1.5 text-xs text-slate-600 hover:text-slate-900 bg-slate-100 hover:bg-slate-200 rounded-lg transition font-medium flex items-center justify-center gap-1.5">
+        <div class="flex items-end shrink-0">
+          <button id="btn-reset-filters" class="w-full sm:w-auto px-3 py-1.5 text-xs text-slate-600 hover:text-slate-900 bg-slate-100 hover:bg-slate-200 border border-slate-200 rounded-lg transition font-medium flex items-center justify-center gap-1.5 whitespace-nowrap">
             <i class="fa-solid fa-arrows-rotate text-slate-400"></i>
             <span>Restablecer</span>
           </button>
@@ -952,7 +955,7 @@
         `;
         f2.value = selectedStockMoneda;
 
-        l3.textContent = 'Línea de Crédito (Serie Foco)';
+        l3.textContent = 'Línea de Crédito';
         f3.innerHTML = `<option value="total">Total de Préstamos</option>` +
           CREDIT_LINES.map(l => `<option value="${l.key}">${l.nombre}</option>`).join('') +
           `<option value="pf_stock">Stock Depósitos a Plazo Fijo (ARS)</option>` +
@@ -998,7 +1001,7 @@
       const subgrupo = document.getElementById('filter-1').value;
       const seg = document.getElementById('filter-2').value;
       const f3 = document.getElementById('filter-3');
-      document.getElementById('label-filter-3').textContent = 'Tasa Específica (Serie Foco)';
+      document.getElementById('label-filter-3').textContent = 'Tasa Específica';
 
       const filtered = TASAS_ITEMS.filter(t => {
         if (subgrupo !== 'ALL' && t.subgrupo !== subgrupo) return false;
@@ -1012,14 +1015,74 @@
     function populateIndicesFilter3() {
       const fam = document.getElementById('filter-1').value;
       const f3 = document.getElementById('filter-3');
-      document.getElementById('label-filter-3').textContent = 'Índice / Cotización (Serie Foco)';
+      document.getElementById('label-filter-3').textContent = 'Índice / Cotización';
 
       const filtered = INDICES_ITEMS.filter(i => i.familia === fam);
       const list = filtered.length > 0 ? filtered : INDICES_ITEMS;
       f3.innerHTML = list.map(i => `<option value="${i.id}">${i.label}</option>`).join('');
     }
 
-    // Cargar datos desde data/bcra_data.json
+    function updateHeaderStatusDates(lastUpdateIso, isLiveApi = false) {
+      const fechaStock = getLatest(1275).fecha || getLatest(1341).fecha;
+      const fechaMercado = getLatest(5).fecha || getLatest(4).fecha || fechaStock;
+
+      document.getElementById('records-summary-label').textContent =
+        `Cierre Cartera (T-2 BCRA): ${formatDateShort(fechaStock)} · Mercado/TC al: ${formatDateShort(fechaMercado)}`;
+
+      if (isLiveApi) {
+        const now = new Date();
+        document.getElementById('status-update-label').textContent =
+          `En vivo API BCRA (${now.toLocaleDateString('es-AR')} ${now.toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit' })})`;
+      } else if (lastUpdateIso) {
+        const d = new Date(lastUpdateIso);
+        document.getElementById('status-update-label').textContent =
+          `Actualizado: ${d.toLocaleDateString('es-AR')} ${d.toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit' })}`;
+      }
+
+      document.getElementById('subtitle-text').textContent =
+        `Seguimiento diario de Tipo de Cambio (${formatDateShort(fechaMercado)}), Inflación/CER/UVA, Stock de Deuda (${formatDateShort(fechaStock)}) y Tasas`;
+    }
+
+    // Sincronización híbrida en vivo con la API pública v4.0 del BCRA desde el navegador
+    async function syncLiveCatalogFromBcra() {
+      try {
+        const [r0, r1] = await Promise.all([
+          fetch('https://api.bcra.gob.ar/estadisticas/v4.0/monetarias?offset=0&limit=1000'),
+          fetch('https://api.bcra.gob.ar/estadisticas/v4.0/monetarias?offset=1000&limit=1000')
+        ]);
+        if (!r0.ok || !r1.ok) return;
+        const j0 = await r0.json();
+        const j1 = await r1.json();
+        const allLive = [...(j0.results || []), ...(j1.results || [])];
+
+        let updatedAny = false;
+        allLive.forEach(item => {
+          const vid = item.idVariable;
+          if (!varCatalog[vid] && !varHistory[String(vid)]) return;
+          varCatalog[vid] = { ...varCatalog[vid], ...item };
+          const hist = varHistory[String(vid)];
+          if (Array.isArray(hist) && item.ultFechaInformada && item.ultValorInformado !== undefined) {
+            const lastPt = hist[hist.length - 1];
+            if (!lastPt || item.ultFechaInformada > lastPt.fecha) {
+              hist.push({ fecha: item.ultFechaInformada, valor: Number(item.ultValorInformado) });
+              updatedAny = true;
+            } else if (item.ultFechaInformada === lastPt.fecha && Number(lastPt.valor) !== Number(item.ultValorInformado)) {
+              lastPt.valor = Number(item.ultValorInformado);
+              updatedAny = true;
+            }
+          }
+        });
+
+        updateHeaderStatusDates(null, true);
+        if (updatedAny) {
+          refreshDashboard();
+        }
+      } catch (e) {
+        // Si el navegador bloquea o falla la red, sigue operando normalmente con data/bcra_data.json
+      }
+    }
+
+    // Cargar datos desde data/bcra_data.json y luego sincronizar últimos cierres en vivo con API BCRA
     async function loadBcraData() {
       const statusMsg = document.getElementById('status-message');
       try {
@@ -1033,18 +1096,14 @@
         varHistory = bcraData.history || {};
 
         const lastUpdateIso = bcraData.metadata?.last_update || '';
-        const fechaStock = getLatest(1275).fecha || getLatest(1341).fecha || getLatest(4).fecha;
-
         statusMsg.textContent = `Datos oficiales BCRA sincronizados (${bcraData.variables?.length || 0} series monetarias y de crédito activas).`;
-        document.getElementById('records-summary-label').textContent = `Cierre de cartera: ${formatDateShort(fechaStock)}`;
-        if (lastUpdateIso) {
-          const d = new Date(lastUpdateIso);
-          document.getElementById('status-update-label').textContent = `Actualizado: ${d.toLocaleDateString('es-AR')} ${d.toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit' })}`;
-        }
-        document.getElementById('subtitle-text').textContent = `Seguimiento diario de Tipo de Cambio, Inflación/CER/UVA, Stock de Deuda por Línea y Tasas (Datos al ${formatDateShort(fechaStock)})`;
+        updateHeaderStatusDates(lastUpdateIso, false);
 
         configureControlsForMainGroup();
         refreshDashboard();
+
+        // Sincronizar en segundo plano contra la API en vivo del BCRA por si hubo publicaciones posteriores al JSON
+        syncLiveCatalogFromBcra();
       } catch (err) {
         console.error('Error cargando bcra_data.json:', err);
         statusMsg.textContent = 'Error al leer data/bcra_data.json.';
