@@ -119,14 +119,14 @@
     <!-- 5 KEY FINANCIAL KPI CARDS (RESUMEN GENERAL FIJO ARRIBA) -->
     <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
       
-      <!-- KPI 1: Stock de Deuda / Préstamos -->
+      <!-- KPI 1: Stock de Deuda / Préstamos (Inicia en Total y conserva elección al cambiar pestaña) -->
       <div class="bg-white rounded-2xl p-4 border border-slate-200 shadow-sm relative overflow-hidden flex flex-col justify-between">
         <div class="absolute -right-3 -bottom-3 text-sky-100 text-7xl opacity-40 pointer-events-none">
           <i class="fa-solid fa-vault"></i>
         </div>
         <div>
           <div class="flex items-center justify-between mb-1">
-            <span id="kpi-stock-label" class="text-[11px] font-semibold uppercase tracking-wider text-slate-500">Stock Préstamos (Privado)</span>
+            <span id="kpi-stock-label" class="text-[11px] font-semibold uppercase tracking-wider text-slate-500">Stock Préstamos (Total)</span>
             <span class="p-1.5 rounded-xl bg-sky-50 text-sky-600 text-xs"><i class="fa-solid fa-sack-dollar"></i></span>
           </div>
           <div id="kpi-stock-total" class="text-xl sm:text-2xl font-extrabold text-slate-900 tracking-tight">$ 0 M</div>
@@ -138,80 +138,80 @@
         </div>
       </div>
 
-      <!-- KPI 2: Tasas de Líneas de Crédito (Activas) -->
+      <!-- KPI 2: Tasas de Líneas de Crédito (Ponderada por Stock + Mayor peso como ref.) -->
       <div class="bg-white rounded-2xl p-4 border border-slate-200 shadow-sm relative overflow-hidden flex flex-col justify-between">
         <div class="absolute -right-3 -bottom-3 text-indigo-100 text-7xl opacity-40 pointer-events-none">
           <i class="fa-solid fa-percent"></i>
         </div>
         <div>
           <div class="flex items-center justify-between mb-1">
-            <span class="text-[11px] font-semibold uppercase tracking-wider text-slate-500">Tasas Líneas de Crédito</span>
+            <span class="text-[11px] font-semibold uppercase tracking-wider text-slate-500">Tasa Activa Ponderada</span>
             <span class="p-1.5 rounded-xl bg-indigo-50 text-indigo-600 text-xs"><i class="fa-solid fa-credit-card"></i></span>
           </div>
-          <div class="flex items-baseline gap-2">
-            <span id="kpi-tasa-personales" class="text-xl sm:text-2xl font-extrabold text-indigo-950 tracking-tight">0,00%</span>
-            <span class="text-[11px] font-medium text-slate-500">Personales</span>
+          <div class="flex items-baseline gap-1.5">
+            <span id="kpi-tasa-activa-pond" class="text-xl sm:text-2xl font-extrabold text-indigo-950 tracking-tight">0,00%</span>
+            <span class="text-[10px] font-semibold text-indigo-600 bg-indigo-50 px-1.5 py-0.5 rounded">Pond. s/Stock</span>
           </div>
-          <div id="kpi-tasa-tarjetas-sub" class="text-[11px] font-semibold text-indigo-600 mt-0.5">Tarjetas: 0,00% TNA</div>
+          <div id="kpi-tasa-activa-var" class="text-[11px] font-semibold text-slate-600 mt-0.5">—</div>
         </div>
         <div class="mt-2.5 text-[11px] text-slate-500 flex items-center justify-between pt-2 border-t border-slate-100">
-          <span>Adelantos / Doc.:</span>
-          <span id="kpi-tasa-comerciales" class="font-semibold text-slate-800">0,00% / 0,00%</span>
+          <span id="kpi-tasa-activa-ref-label">Mayor peso:</span>
+          <span id="kpi-tasa-activa-ref-val" class="font-semibold text-slate-800">—</span>
         </div>
       </div>
 
-      <!-- KPI 3: Tasas de Plazos Fijos (Pasivas) -->
+      <!-- KPI 3: Tasas de Plazos Fijos (Ponderada Total + Mayor peso como ref.) -->
       <div class="bg-white rounded-2xl p-4 border border-slate-200 shadow-sm relative overflow-hidden flex flex-col justify-between">
         <div class="absolute -right-3 -bottom-3 text-emerald-100 text-7xl opacity-40 pointer-events-none">
           <i class="fa-solid fa-piggy-bank"></i>
         </div>
         <div>
           <div class="flex items-center justify-between mb-1">
-            <span class="text-[11px] font-semibold uppercase tracking-wider text-emerald-700">Tasas de Plazos Fijos</span>
+            <span class="text-[11px] font-semibold uppercase tracking-wider text-emerald-700">Tasa Pasiva Ponderada</span>
             <span class="p-1.5 rounded-xl bg-emerald-50 text-emerald-600 text-xs"><i class="fa-solid fa-building-lock"></i></span>
           </div>
-          <div class="flex items-baseline gap-2">
+          <div class="flex items-baseline gap-1.5">
             <span id="kpi-tasa-pf-total" class="text-xl sm:text-2xl font-extrabold text-emerald-700 tracking-tight">0,00%</span>
-            <span class="text-[11px] font-medium text-slate-500">PF Pesos</span>
+            <span class="text-[10px] font-semibold text-emerald-700 bg-emerald-50 px-1.5 py-0.5 rounded">Pond. PF $</span>
           </div>
-          <div id="kpi-tasa-pf-humanas" class="text-[11px] font-semibold text-slate-600 mt-0.5">Individuos: 0,00% · BADLAR: 0,00%</div>
+          <div id="kpi-tasa-pf-var" class="text-[11px] font-semibold text-slate-600 mt-0.5">—</div>
         </div>
         <div class="mt-2.5 text-[11px] text-slate-500 flex items-center justify-between pt-2 border-t border-slate-100">
-          <span>TM20 / TAMAR:</span>
-          <span id="kpi-tasa-mayoristas" class="font-semibold text-emerald-700 font-mono">0,00% / 0,00%</span>
+          <span id="kpi-tasa-pf-ref-label">Mayor peso (7-59d):</span>
+          <span id="kpi-tasa-pf-ref-val" class="font-semibold text-emerald-700 font-mono">0,00% TNA</span>
         </div>
       </div>
 
-      <!-- KPI 4: Tipo de Cambio (Mayorista, Contable y Minorista) -->
+      <!-- KPI 4: Tipo de Cambio BCRA (Referencia Com. A 3500 + Var. i.a. + Mayorista / Minorista) -->
       <div class="bg-white rounded-2xl p-4 border border-slate-200 shadow-sm relative overflow-hidden flex flex-col justify-between">
         <div class="absolute -right-3 -bottom-3 text-amber-100 text-7xl opacity-40 pointer-events-none">
           <i class="fa-solid fa-dollar-sign"></i>
         </div>
         <div>
           <div class="flex items-center justify-between mb-1">
-            <span class="text-[11px] font-semibold uppercase tracking-wider text-slate-500">Tipo de Cambio BCRA</span>
+            <span class="text-[11px] font-semibold uppercase tracking-wider text-slate-500">Tipo de Cambio (A 3500)</span>
             <span class="p-1.5 rounded-xl bg-amber-50 text-amber-600 text-xs"><i class="fa-solid fa-money-bill-transfer"></i></span>
           </div>
           <div class="flex items-baseline gap-1.5">
             <span id="kpi-tc-mayorista" class="text-xl sm:text-2xl font-extrabold text-slate-900 tracking-tight">$ 0,00</span>
-            <span class="text-[11px] font-medium text-slate-500">Mayorista</span>
+            <span class="text-[10px] font-semibold text-amber-700 bg-amber-50 px-1.5 py-0.5 rounded">Com. A 3500</span>
           </div>
-          <div id="kpi-tc-contable" class="text-[11px] font-semibold text-amber-700 mt-0.5">TC Contable: $ 0,00</div>
+          <div id="kpi-tc-var-ia" class="text-[11px] font-semibold text-amber-700 mt-0.5">—</div>
         </div>
         <div class="mt-2.5 text-[11px] text-slate-500 flex items-center justify-between pt-2 border-t border-slate-100">
-          <span>Minorista / Var. 30d:</span>
-          <span id="kpi-tc-minorista" class="font-semibold text-slate-800">$ 0,00 (0,0%)</span>
+          <span>May. / Min.:</span>
+          <span id="kpi-tc-refs" class="font-semibold text-slate-800">$ 0,00 / $ 0,00</span>
         </div>
       </div>
 
-      <!-- KPI 5: Inflación IPC + CER / UVA -->
+      <!-- KPI 5: Inflación IPC (con Mes explícito) + CER / UVA -->
       <div class="bg-white rounded-2xl p-4 border border-slate-200 shadow-sm relative overflow-hidden flex flex-col justify-between">
         <div class="absolute -right-3 -bottom-3 text-purple-100 text-7xl opacity-40 pointer-events-none">
           <i class="fa-solid fa-chart-line"></i>
         </div>
         <div>
           <div class="flex items-center justify-between mb-1">
-            <span class="text-[11px] font-semibold uppercase tracking-wider text-slate-500">Inflación IPC · CER / UVA</span>
+            <span id="kpi-ipc-title" class="text-[11px] font-semibold uppercase tracking-wider text-slate-500">IPC (—) · CER / UVA</span>
             <span class="p-1.5 rounded-xl bg-purple-50 text-purple-600 text-xs"><i class="fa-solid fa-arrow-trend-up"></i></span>
           </div>
           <div class="flex items-baseline gap-2">
@@ -253,7 +253,7 @@
             </button>
           </div>
           <span id="active-filter-badge" class="text-[11px] font-semibold px-2.5 py-1 rounded-full bg-sky-50 text-sky-800 border border-sky-200">
-            Stocks · Sector Privado · ARS
+            Stocks · Total Sectores · Moneda Nacional
           </span>
         </div>
 
@@ -287,8 +287,8 @@
             <select id="filter-rango" class="w-full text-xs bg-slate-50 border border-slate-300 rounded-lg px-2.5 py-1.5 focus:ring-2 focus:ring-sky-500 focus:outline-none transition font-medium text-slate-800">
               <option value="30">Últimos 30 días</option>
               <option value="90">Últimos 90 días</option>
-              <option value="180" selected>Últimos 6 meses</option>
-              <option value="365">Último año (12M)</option>
+              <option value="180">Últimos 6 meses</option>
+              <option value="365" selected>Último año (12M)</option>
               <option value="9999">Serie histórica completa</option>
             </select>
           </div>
@@ -482,14 +482,14 @@
           <div class="flex justify-between text-[11px] text-slate-400">
             <span>Privado: <strong id="banner-val-privado" class="text-slate-200">$ 0 M</strong></span>
             <span>Público: <strong id="banner-val-publico" class="text-amber-300">$ 0 M</strong></span>
-            <span>Total: <strong id="banner-val-total" class="text-white">$ 0 M</strong></span>
+            <span>Total Sistema: <strong id="banner-val-total" class="text-white">$ 0 M</strong></span>
           </div>
         </div>
 
         <!-- Barra 2: Mix Comercial / Consumo / Garantizados -->
         <div class="bg-white/5 rounded-xl p-4 border border-white/10 space-y-2">
           <div class="flex justify-between items-baseline">
-            <span class="text-xs font-medium text-slate-300">Mix de Líneas (<span id="banner-mix-sector-name">Sector Privado</span>)</span>
+            <span class="text-xs font-medium text-slate-300">Mix de Líneas (<span id="banner-mix-sector-name">Total Sectores</span>)</span>
             <span id="banner-mix-summary" class="text-xs font-bold text-emerald-400 font-mono">Comercial 0% · Consumo 0% · Resto 0%</span>
           </div>
           <div class="w-full bg-slate-700/60 rounded-full h-2.5 overflow-hidden flex">
@@ -522,77 +522,102 @@
     // 1. DEFINICIÓN DE LAS 3 DIMENSIONES: STOCKS | TASAS | INDICES
 
     // A) Dimensión STOCKS (Categoría BCRA: "Préstamos por línea" / diar_fin.xls)
+    // Cada línea incluye rateId para el cálculo exacto de la Tasa Activa Ponderada por su peso en Stock
     const CREDIT_LINES = [
       {
         key: 'tarjetas',
         nombre: 'Tarjetas de Crédito',
+        nombreCorto: 'Tarjetas',
         grupo: 'Consumo',
+        rateId: 1215,
         ids: { TOTAL: { ARS: 1285, USD: 1306 }, PRIVADO: { ARS: 1351, USD: 1365 }, PUBLICO: { ARS: 1323, USD: 1337 } }
       },
       {
         key: 'personales',
         nombre: 'Préstamos Personales',
+        nombreCorto: 'Personales',
         grupo: 'Consumo',
+        rateId: 14,
         ids: { TOTAL: { ARS: 1284, USD: 1305 }, PRIVADO: { ARS: 1350, USD: 1364 }, PUBLICO: { ARS: 1322, USD: 1336 } }
       },
       {
         key: 'doc_sola_firma',
         nombre: 'Documentos a Sola Firma',
+        nombreCorto: 'Doc. Sola Firma',
         grupo: 'Comercial',
+        rateId: 1216,
         ids: { TOTAL: { ARS: 1279, USD: 1300 }, PRIVADO: { ARS: 1345, USD: 1359 }, PUBLICO: { ARS: 1317, USD: 1331 } }
       },
       {
         key: 'adelantos_cc',
         nombre: 'Adelantos en Cta. Corriente',
+        nombreCorto: 'Adelantos Cta.Cte.',
         grupo: 'Comercial',
+        rateId: 13,
         ids: { TOTAL: { ARS: 1277, USD: 1298 }, PRIVADO: { ARS: 1343, USD: 1357 }, PUBLICO: { ARS: 1315, USD: 1329 } }
       },
       {
         key: 'hipotecarios',
         nombre: 'Préstamos Hipotecarios',
+        nombreCorto: 'Hipotecarios',
         grupo: 'Garantizado',
+        rateId: 1217,
         ids: { TOTAL: { ARS: 1282, USD: 1303 }, PRIVADO: { ARS: 1348, USD: 1362 }, PUBLICO: { ARS: 1320, USD: 1334 } }
       },
       {
         key: 'doc_descontados',
         nombre: 'Descuento de Documentos',
+        nombreCorto: 'Desc. Documentos',
         grupo: 'Comercial',
+        rateId: 1216,
         ids: { TOTAL: { ARS: 1280, USD: 1301 }, PRIVADO: { ARS: 1346, USD: 1360 }, PUBLICO: { ARS: 1318, USD: 1332 } }
       },
       {
         key: 'otros_prestamos',
         nombre: 'Otros Préstamos',
+        nombreCorto: 'Otros Préstamos',
         grupo: 'Garantizado',
+        rateId: null,
         ids: { TOTAL: { ARS: 1287, USD: 1308 }, PRIVADO: { ARS: 1353, USD: 1367 }, PUBLICO: { ARS: 1325, USD: 1339 } }
       },
       {
         key: 'prendarios',
         nombre: 'Préstamos Prendarios',
+        nombreCorto: 'Prendarios',
         grupo: 'Garantizado',
+        rateId: 1218,
         ids: { TOTAL: { ARS: 1283, USD: 1304 }, PRIVADO: { ARS: 1349, USD: 1363 }, PUBLICO: { ARS: 1321, USD: 1335 } }
       },
       {
         key: 'doc_comprados',
         nombre: 'Documentos Comprados',
+        nombreCorto: 'Doc. Comprados',
         grupo: 'Comercial',
+        rateId: 1216,
         ids: { TOTAL: { ARS: 1281, USD: 1302 }, PRIVADO: { ARS: 1347, USD: 1361 }, PUBLICO: { ARS: 1319, USD: 1333 } }
       },
       {
         key: 'intereses_doc',
         nombre: 'Intereses Documentados',
+        nombreCorto: 'Int. Documentados',
         grupo: 'Garantizado',
+        rateId: null,
         ids: { TOTAL: { ARS: 1291, USD: 1312 }, PRIVADO: { ARS: 1354, USD: 1368 }, PUBLICO: { ARS: 1326, USD: 1340 } }
       },
       {
         key: 'otros_adelantos',
         nombre: 'Otros Adelantos',
+        nombreCorto: 'Otros Adelantos',
         grupo: 'Comercial',
+        rateId: 1199,
         ids: { TOTAL: { ARS: 1278, USD: 1299 }, PRIVADO: { ARS: 1344, USD: 1358 }, PUBLICO: { ARS: 1316, USD: 1330 } }
       },
       {
         key: 'cred_documentarios',
         nombre: 'Créditos Documentarios',
+        nombreCorto: 'Créd. Documentarios',
         grupo: 'Garantizado',
+        rateId: null,
         ids: { TOTAL: { ARS: 1286, USD: 1307 }, PRIVADO: { ARS: 1352, USD: 1366 }, PUBLICO: { ARS: 1324, USD: 1338 } }
       }
     ];
@@ -603,8 +628,13 @@
       PUBLICO: { ARS: 1313, USD: 1327 }
     };
 
-    // B) Dimensión TASAS (Activas por línea y Pasivas de Plazos Fijos)
+    // IDs que tienen periodicidad mensual (para mostrar formato MM/AAAA sin días)
+    const MONTHLY_VAR_IDS = new Set([27, 28, 29, 1199, 1215, 1216, 1217, 1218, 1219, 1240]);
+    const MESES_ES = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+
+    // B) Dimensión TASAS (incluye ID virtual 'POND_ACTIVA' para la Tasa Activa Ponderada por Stock)
     const TASAS_ITEMS = [
+      { id: 'POND_ACTIVA', label: 'Tasa Activa Ponderada por Stock', subgrupo: 'ACTIVAS', segmento: 'PESOS', color: '#1e40af' },
       // Activas (Líneas de Crédito)
       { id: 1215, label: 'Tasa Tarjetas de Crédito', subgrupo: 'ACTIVAS', segmento: 'PESOS', color: '#4f46e5' },
       { id: 14,   label: 'Tasa Préstamos Personales (Diaria)', subgrupo: 'ACTIVAS', segmento: 'PESOS', color: '#0284c7' },
@@ -616,13 +646,13 @@
       { id: 1218, label: 'Tasa Préstamos Prendarios', subgrupo: 'ACTIVAS', segmento: 'PESOS', color: '#8b5cf6' },
       { id: 1240, label: 'Tasa Préstamos Hipotecarios UVA', subgrupo: 'ACTIVAS', segmento: 'UVA_USD', color: '#9333ea' },
       // Pasivas (Plazos Fijos por Inversor y Plazo)
-      { id: 1189, label: 'Plazo Fijo en Pesos (Total Sistema)', subgrupo: 'PLAZO_FIJO', segmento: 'PESOS', color: '#10b981' },
+      { id: 1189, label: 'Tasa Pasiva Ponderada (Total Plazo Fijo $)', subgrupo: 'PLAZO_FIJO', segmento: 'PESOS', color: '#047857' },
+      { id: 1205, label: 'Plazo Fijo de 7 a 59 días (Mayor peso)', subgrupo: 'PLAZO_FIJO', segmento: 'PESOS', color: '#10b981' },
       { id: 1190, label: 'Plazo Fijo Pesos · Personas Humanas', subgrupo: 'PLAZO_FIJO', segmento: 'PESOS', color: '#059669' },
-      { id: 1192, label: 'Plazo Fijo Pesos · Personas Jurídicas', subgrupo: 'PLAZO_FIJO', segmento: 'PESOS', color: '#047857' },
+      { id: 1192, label: 'Plazo Fijo Pesos · Personas Jurídicas', subgrupo: 'PLAZO_FIJO', segmento: 'PESOS', color: '#16a34a' },
       { id: 1191, label: 'Plazo Fijo Pesos · Prestadores Serv. Financieros', subgrupo: 'PLAZO_FIJO', segmento: 'PESOS', color: '#14b8a6' },
       { id: 12,   label: 'Depósitos a 30 días de plazo', subgrupo: 'PLAZO_FIJO', segmento: 'PESOS', color: '#22c55e' },
-      { id: 1205, label: 'Plazo Fijo de 7 a 59 días', subgrupo: 'PLAZO_FIJO', segmento: 'PESOS', color: '#34d399' },
-      { id: 1208, label: 'Plazo Fijo de 60 días o más', subgrupo: 'PLAZO_FIJO', segmento: 'PESOS', color: '#16a34a' },
+      { id: 1208, label: 'Plazo Fijo de 60 días o más', subgrupo: 'PLAZO_FIJO', segmento: 'PESOS', color: '#34d399' },
       { id: 1203, label: 'Cajas de Ahorro en Pesos', subgrupo: 'PLAZO_FIJO', segmento: 'PESOS', color: '#6ee7b7' },
       { id: 1227, label: 'Plazo Fijo UVA', subgrupo: 'PLAZO_FIJO', segmento: 'UVA_USD', color: '#0d9488' },
       { id: 1193, label: 'Plazo Fijo en Dólares (Total)', subgrupo: 'PLAZO_FIJO', segmento: 'UVA_USD', color: '#0f766e' },
@@ -637,8 +667,8 @@
     const INDICES_ITEMS = [
       // Tipo de Cambio
       { id: 5,    label: 'Tipo de Cambio Mayorista (Com. A 3500)', familia: 'TC', unit: '$/USD', prefix: '$ ', suffix: '', color: '#f59e0b' },
-      { id: 84,   label: 'Tipo de Cambio Valuación Contable BCRA', familia: 'TC', unit: '$/USD', prefix: '$ ', suffix: '', color: '#0284c7' },
       { id: 4,    label: 'Tipo de Cambio Minorista Promedio', familia: 'TC', unit: '$/USD', prefix: '$ ', suffix: '', color: '#10b981' },
+      { id: 84,   label: 'Tipo de Cambio Valuación Contable BCRA', familia: 'TC', unit: '$/USD', prefix: '$ ', suffix: '', color: '#0284c7' },
       { id: 1188, label: 'Banda Cambiaria · Límite Superior', familia: 'TC', unit: '$/USD', prefix: '$ ', suffix: '', color: '#ef4444' },
       { id: 1187, label: 'Banda Cambiaria · Límite Inferior', familia: 'TC', unit: '$/USD', prefix: '$ ', suffix: '', color: '#64748b' },
       // Inflación IPC y REM
@@ -650,18 +680,20 @@
       { id: 30,   label: 'CER (Coeficiente de Estabilización)', familia: 'CER_UVA', unit: 'Índice', prefix: '', suffix: '', color: '#0284c7' }
     ];
 
-    // Estado de la aplicación
+    // Estado persistente de la aplicación
     let bcraData = null;
     let varCatalog = {};
     let varHistory = {};
 
-    let mainGroup = 'STOCKS'; // 'STOCKS' | 'TASAS' | 'INDICES'
-    let rightChartStockMode = 'bar'; // 'bar' | 'doughnut'
+    let mainGroup = 'STOCKS';            // 'STOCKS' | 'TASAS' | 'INDICES'
+    let selectedStockSector = 'TOTAL';   // Punto 1: Arranca en TOTAL y no se pierde al cambiar de dimensión
+    let selectedStockMoneda = 'ARS';     // 'ARS' | 'USD' | 'CONSOLIDADO'
+    let rightChartStockMode = 'bar';     // 'bar' | 'doughnut'
 
     let chartLeftInstance = null;
     let chartRightInstance = null;
 
-    // Helpers de formato numérico argentino
+    // Helpers de formato numérico y fechas
     function formatNumber(val, decimals = 2) {
       if (val === undefined || val === null || isNaN(val)) return '—';
       return Number(val).toLocaleString('es-AR', {
@@ -684,14 +716,51 @@
       return dateStr;
     }
 
-    function formatDayMonth(dateStr) {
-      if (!dateStr) return '';
+    function formatMonthYearName(dateStr) {
+      if (!dateStr) return '—';
       const parts = String(dateStr).slice(0, 10).split('-');
-      if (parts.length === 3) return `${parts[2]}/${parts[1]}/${parts[0].slice(2)}`;
+      if (parts.length >= 2) {
+        const mIdx = parseInt(parts[1], 10) - 1;
+        return `${MESES_ES[mIdx] || parts[1]} ${parts[0]}`;
+      }
       return dateStr;
     }
 
+    // Punto 8: Formato MM/AAAA sin días para series mensuales, y DD/MM/AA para series diarias
+    function formatChartAxisDate(dateStr, isMonthly = false) {
+      if (!dateStr) return '';
+      const parts = String(dateStr).slice(0, 10).split('-');
+      if (parts.length === 3) {
+        if (isMonthly) {
+          return `${parts[1]}/${parts[0]}`;
+        }
+        return `${parts[2]}/${parts[1]}/${parts[0].slice(2)}`;
+      }
+      return dateStr;
+    }
+
+    function isSeriesMonthly(series, varId = null) {
+      if (varId !== null && MONTHLY_VAR_IDS.has(Number(varId))) return true;
+      if (!series || series.length < 2) return false;
+      const sampleCount = Math.min(series.length - 1, 6);
+      let totalDays = 0;
+      for (let i = series.length - sampleCount; i < series.length; i++) {
+        const d1 = new Date(series[i - 1].fecha);
+        const d2 = new Date(series[i].fecha);
+        totalDays += (d2 - d1) / (86400 * 1000);
+      }
+      return (totalDays / sampleCount) >= 20;
+    }
+
     function getLatest(id) {
+      if (id === 'POND_ACTIVA') {
+        const pondSeries = varHistory['POND_ACTIVA'] || [];
+        if (pondSeries.length > 0) {
+          const last = pondSeries[pondSeries.length - 1];
+          return { valor: Number(last.valor), fecha: last.fecha };
+        }
+        return { valor: 0, fecha: '' };
+      }
       const catItem = varCatalog[id];
       const hist = varHistory[String(id)] || [];
       if (hist.length > 0) {
@@ -704,7 +773,8 @@
       return { valor: 0, fecha: '' };
     }
 
-    function getVarDays(id, daysBack = 30, isPointDiff = false) {
+    // Punto 2 y 4: Variación Interanual (365 días), en % para nominales/índices y en p.p. para tasas
+    function getVarDays(id, daysBack = 365, isPointDiff = false) {
       const hist = varHistory[String(id)] || [];
       if (hist.length < 2) return null;
       const last = hist[hist.length - 1];
@@ -723,15 +793,98 @@
       return ((Number(last.valor) - Number(refPoint.valor)) / Math.abs(Number(refPoint.valor))) * 100;
     }
 
+    // Construye la serie histórica diaria de la Tasa Activa Ponderada por el peso en Stock de cada línea
+    function buildWeightedActiveRateHistory(sector = selectedStockSector) {
+      const linesWithRate = CREDIT_LINES.filter(l => l.rateId !== null);
+      const baseStockId = TOTAL_LOAN_IDS[sector].ARS;
+      const baseDates = (varHistory[String(baseStockId)] || []).map(p => p.fecha);
+
+      // Crear cursores para buscar el último valor disponible de cada línea y cada tasa en o antes de cada fecha
+      const stockMaps = {};
+      const rateHistories = {};
+      linesWithRate.forEach(l => {
+        const sId = l.ids[sector].ARS;
+        const sMap = {};
+        (varHistory[String(sId)] || []).forEach(p => { sMap[p.fecha] = Number(p.valor); });
+        stockMaps[l.key] = sMap;
+        rateHistories[l.rateId] = varHistory[String(l.rateId)] || [];
+      });
+
+      const getRateAtDate = (rateId, dateStr) => {
+        const arr = rateHistories[rateId] || [];
+        if (arr.length === 0) return 0;
+        let val = Number(arr[0].valor);
+        for (let i = 0; i < arr.length; i++) {
+          if (arr[i].fecha <= dateStr) val = Number(arr[i].valor);
+          else break;
+        }
+        return val;
+      };
+
+      const series = [];
+      const lastStocks = {};
+      linesWithRate.forEach(l => { lastStocks[l.key] = 0; });
+
+      baseDates.forEach(d => {
+        let weightedSum = 0;
+        let totalWeight = 0;
+        linesWithRate.forEach(l => {
+          if (stockMaps[l.key][d] !== undefined) {
+            lastStocks[l.key] = stockMaps[l.key][d];
+          }
+          const st = lastStocks[l.key];
+          if (st > 0) {
+            const rt = getRateAtDate(l.rateId, d);
+            weightedSum += st * rt;
+            totalWeight += st;
+          }
+        });
+        if (totalWeight > 0) {
+          series.push({ fecha: d, valor: weightedSum / totalWeight });
+        }
+      });
+
+      varHistory['POND_ACTIVA'] = series;
+      return series;
+    }
+
+    // Devuelve la línea de crédito con mayor peso actual en el stock (entre las que informan tasa)
+    function getLargestWeightCreditLine(sector = selectedStockSector) {
+      const linesWithRate = CREDIT_LINES.filter(l => l.rateId !== null);
+      let topLine = linesWithRate[0];
+      let maxStock = -1;
+      let sumStock = 0;
+
+      linesWithRate.forEach(l => {
+        const st = getStockValue(l.ids, sector, 'ARS');
+        sumStock += st;
+        if (st > maxStock) {
+          maxStock = st;
+          topLine = l;
+        }
+      });
+
+      const pct = sumStock > 0 ? (maxStock / sumStock) * 100 : 0;
+      const rateVal = getLatest(topLine.rateId).valor;
+      return {
+        nombre: topLine.nombreCorto,
+        stock: maxStock,
+        pct,
+        tasa: rateVal
+      };
+    }
+
     function getStockValue(idsBySector, sector, moneda) {
       const pair = idsBySector[sector];
       if (!pair) return 0;
       if (moneda === 'ARS') return getLatest(pair.ARS).valor;
       if (moneda === 'USD') return getLatest(pair.USD).valor;
-      const ars = getLatest(pair.ARS).valor;
-      const usd = getLatest(pair.USD).valor;
-      const tcContable = getLatest(84).valor || getLatest(5).valor || 1;
-      return ars + (usd * tcContable);
+      const arsLat = getLatest(pair.ARS);
+      const usdLat = getLatest(pair.USD);
+      // En diar_fin.xls (Nota 2), el consolidado en pesos convierte USD usando el TC Mayorista Com. "A" 3500 (ID 5) de la misma fecha
+      const tcHist = varHistory['5'] || [];
+      const tcOnDate = tcHist.find(x => x.fecha === arsLat.fecha)?.valor || getLatest(5).valor || 1;
+      return arsLat.valor + (usdLat.valor * Number(tcOnDate));
     }
 
     function getStockSeries(pair, moneda, days) {
@@ -747,9 +900,9 @@
       } else {
         const usdMap = {};
         serieUsd.forEach(p => { usdMap[p.fecha] = Number(p.valor); });
-        const tcSerie = varHistory['84'] || varHistory['5'] || [];
+        const tcSerie = varHistory['5'] || [];
         const tcMap = {};
-        let lastTc = getLatest(84).valor || 1;
+        let lastTc = getLatest(5).valor || 1;
         tcSerie.forEach(p => { tcMap[p.fecha] = Number(p.valor); });
 
         raw = serieArs.map(p => {
@@ -773,7 +926,7 @@
     }
 
     // Configurar los selectores dinámicos (filter-1, filter-2, filter-3) según la dimensión activa
-    function configureControlsForMainGroup(preserveF1 = false, preserveF2 = false) {
+    function configureControlsForMainGroup() {
       const f1 = document.getElementById('filter-1');
       const f2 = document.getElementById('filter-2');
       const f3 = document.getElementById('filter-3');
@@ -781,25 +934,23 @@
       const l2 = document.getElementById('label-filter-2');
       const l3 = document.getElementById('label-filter-3');
 
-      const prevF1 = f1.value;
-      const prevF2 = f2.value;
-
       if (mainGroup === 'STOCKS') {
         l1.textContent = 'Sector de Deuda';
+        // Punto 1: Arranca en TOTAL y conserva la última elección del usuario
         f1.innerHTML = `
-          <option value="PRIVADO">Sector Privado</option>
           <option value="TOTAL">Total Sectores (Priv. + Púb.)</option>
+          <option value="PRIVADO">Sector Privado</option>
           <option value="PUBLICO">Sector Público</option>
         `;
-        if (preserveF1 && ['PRIVADO', 'TOTAL', 'PUBLICO'].includes(prevF1)) f1.value = prevF1;
+        f1.value = selectedStockSector;
 
         l2.textContent = 'Moneda de Cartera';
         f2.innerHTML = `
-          <option value="ARS">Pesos (Millones $ ARS)</option>
-          <option value="USD">Dólares (Millones USD)</option>
-          <option value="CONSOLIDADO">Consolidado en $ (a TC Contable)</option>
+          <option value="ARS">Moneda Nacional (Millones $ ARS)</option>
+          <option value="USD">Moneda Extranjera (Millones USD)</option>
+          <option value="CONSOLIDADO">Nac. + Ext. Consolidado ($ a TC A3500)</option>
         `;
-        if (preserveF2 && ['ARS', 'USD', 'CONSOLIDADO'].includes(prevF2)) f2.value = prevF2;
+        f2.value = selectedStockMoneda;
 
         l3.textContent = 'Línea de Crédito (Serie Foco)';
         f3.innerHTML = `<option value="total">Total de Préstamos</option>` +
@@ -815,7 +966,6 @@
           <option value="MAYORISTAS">Tasas Mayoristas (BADLAR / TM20 / TAMAR)</option>
           <option value="ALL">Todas las Tasas</option>
         `;
-        if (preserveF1 && ['ACTIVAS', 'PLAZO_FIJO', 'MAYORISTAS', 'ALL'].includes(prevF1)) f1.value = prevF1;
 
         l2.textContent = 'Moneda / Segmento';
         f2.innerHTML = `
@@ -823,7 +973,6 @@
           <option value="PESOS">Solo Tasas en Pesos ($)</option>
           <option value="UVA_USD">Tasas UVA y Dólares</option>
         `;
-        if (preserveF2 && ['ALL', 'PESOS', 'UVA_USD'].includes(prevF2)) f2.value = prevF2;
 
         populateTasasFilter3();
 
@@ -834,14 +983,12 @@
           <option value="IPC">Inflación IPC y REM (%)</option>
           <option value="CER_UVA">Indexadores Bancarios (CER y UVA)</option>
         `;
-        if (preserveF1 && ['TC', 'IPC', 'CER_UVA'].includes(prevF1)) f1.value = prevF1;
 
         l2.textContent = 'Visualización Serie';
         f2.innerHTML = `
           <option value="NIVEL">Valor / Nivel Publicado</option>
-          <option value="VAR30">Variación acumulada 30 días (%)</option>
+          <option value="VAR_IA">Variación Interanual (%)</option>
         `;
-        if (preserveF2 && ['NIVEL', 'VAR30'].includes(prevF2)) f2.value = prevF2;
 
         populateIndicesFilter3();
       }
@@ -886,7 +1033,7 @@
         varHistory = bcraData.history || {};
 
         const lastUpdateIso = bcraData.metadata?.last_update || '';
-        const fechaStock = getLatest(1341).fecha || getLatest(4).fecha;
+        const fechaStock = getLatest(1275).fecha || getLatest(1341).fecha || getLatest(4).fecha;
 
         statusMsg.textContent = `Datos oficiales BCRA sincronizados (${bcraData.variables?.length || 0} series monetarias y de crédito activas).`;
         document.getElementById('records-summary-label').textContent = `Cierre de cartera: ${formatDateShort(fechaStock)}`;
@@ -907,25 +1054,26 @@
 
     // Actualizar los 5 KPIs generales fijos de arriba
     function updateTopKpis() {
-      // Si estamos en STOCKS usamos el sector y moneda elegidos; si no, mostramos Privado ARS por defecto
-      const sector = mainGroup === 'STOCKS' ? document.getElementById('filter-1').value : 'PRIVADO';
-      const moneda = mainGroup === 'STOCKS' ? document.getElementById('filter-2').value : 'ARS';
+      // Punto 1: Usar siempre selectedStockSector y selectedStockMoneda (inicia en TOTAL y persiste al cambiar a TASAS o INDICES)
+      const sector = selectedStockSector;
+      const moneda = selectedStockMoneda;
 
-      const sectorShort = sector === 'PRIVADO' ? 'Privado' : (sector === 'PUBLICO' ? 'Público' : 'Total');
+      const sectorShort = sector === 'TOTAL' ? 'Total' : (sector === 'PRIVADO' ? 'Privado' : 'Público');
       document.getElementById('kpi-stock-label').textContent = `Stock Préstamos (${sectorShort})`;
 
       const totalStock = getStockValue(TOTAL_LOAN_IDS, sector, moneda);
       document.getElementById('kpi-stock-total').textContent = formatStock(totalStock, moneda);
 
+      // Punto 2: Variación Interanual (i.a. 365d) en %
       const activeIdForVar = moneda === 'USD' ? TOTAL_LOAN_IDS[sector].USD : TOTAL_LOAN_IDS[sector].ARS;
-      const var30Stock = getVarDays(activeIdForVar, 30, false);
+      const varIaStock = getVarDays(activeIdForVar, 365, false);
       const varEl = document.getElementById('kpi-stock-var');
-      if (var30Stock !== null) {
-        const sign = var30Stock >= 0 ? '+' : '';
-        varEl.textContent = `${sign}${formatNumber(var30Stock, 1)}% últimos 30 días`;
-        varEl.className = `text-[11px] font-semibold mt-0.5 ${var30Stock >= 0 ? 'text-emerald-600' : 'text-rose-600'}`;
+      if (varIaStock !== null) {
+        const sign = varIaStock >= 0 ? '+' : '';
+        varEl.textContent = `${sign}${formatNumber(varIaStock, 1)}% i.a.`;
+        varEl.className = `text-[11px] font-semibold mt-0.5 ${varIaStock >= 0 ? 'text-emerald-600' : 'text-rose-600'}`;
       } else {
-        varEl.textContent = 'Sin variación 30d';
+        varEl.textContent = 'Sin variación i.a.';
       }
 
       if (moneda === 'USD') {
@@ -934,44 +1082,62 @@
         document.getElementById('kpi-stock-alt-currency').textContent = formatStock(getStockValue(TOTAL_LOAN_IDS, sector, 'USD'), 'USD');
       }
 
-      // KPI 2: Tasas de Líneas de Crédito
-      const tasaPers = getLatest(14).valor || getLatest(1219).valor;
-      const tasaTarj = getLatest(1215).valor;
-      const tasaAdel = getLatest(13).valor || getLatest(1199).valor;
-      const tasaDoc = getLatest(1216).valor;
-      document.getElementById('kpi-tasa-personales').textContent = `${formatNumber(tasaPers, 2)}%`;
-      document.getElementById('kpi-tasa-tarjetas-sub').textContent = `Tarjetas: ${formatNumber(tasaTarj, 2)}% TNA`;
-      document.getElementById('kpi-tasa-comerciales').textContent = `${formatNumber(tasaAdel, 1)}% / ${formatNumber(tasaDoc, 1)}%`;
+      // KPI 2 (Puntos 3, 4 y 5): Tasa Activa Ponderada por Stock + Variación i.a. en p.p. + Referencia dinámica de mayor peso
+      buildWeightedActiveRateHistory(sector);
+      const pondActiva = getLatest('POND_ACTIVA').valor;
+      const varIaPondActiva = getVarDays('POND_ACTIVA', 365, true);
+      const topLine = getLargestWeightCreditLine(sector);
 
-      // KPI 3: Tasas de Plazos Fijos
-      const tasaPfTotal = getLatest(1189).valor || getLatest(12).valor;
-      const tasaPfHum = getLatest(1190).valor;
-      const tasaBadlar = getLatest(7).valor;
-      const tasaTm20 = getLatest(8).valor;
-      const tasaTamar = getLatest(44).valor;
-      document.getElementById('kpi-tasa-pf-total').textContent = `${formatNumber(tasaPfTotal, 2)}%`;
-      document.getElementById('kpi-tasa-pf-humanas').textContent = `Indiv.: ${formatNumber(tasaPfHum, 1)}% · BADLAR: ${formatNumber(tasaBadlar, 1)}%`;
-      document.getElementById('kpi-tasa-mayoristas').textContent = `${formatNumber(tasaTm20, 1)}% / ${formatNumber(tasaTamar, 1)}%`;
+      document.getElementById('kpi-tasa-activa-pond').textContent = `${formatNumber(pondActiva, 2)}%`;
+      const varActEl = document.getElementById('kpi-tasa-activa-var');
+      if (varIaPondActiva !== null) {
+        const sign = varIaPondActiva >= 0 ? '+' : '';
+        varActEl.textContent = `${sign}${formatNumber(varIaPondActiva, 1)} p.p. i.a.`;
+        varActEl.className = `text-[11px] font-semibold mt-0.5 ${varIaPondActiva >= 0 ? 'text-indigo-600' : 'text-emerald-600'}`;
+      } else {
+        varActEl.textContent = '—';
+      }
+      document.getElementById('kpi-tasa-activa-ref-label').textContent = `Mayor peso (${topLine.nombre}):`;
+      document.getElementById('kpi-tasa-activa-ref-val').textContent = `${formatNumber(topLine.tasa, 2)}% TNA`;
 
-      // KPI 4: Tipo de Cambio
+      // KPI 3 (Puntos 4 y 5): Tasa Pasiva Ponderada (ID 1189) + Variación i.a. en p.p. + Referencia de mayor peso (PF 7-59d ID 1205)
+      const tasaPfPond = getLatest(1189).valor || getLatest(12).valor;
+      const varIaPf = getVarDays(1189, 365, true);
+      const tasaPfMayorPeso = getLatest(1205).valor || getLatest(12).valor;
+
+      document.getElementById('kpi-tasa-pf-total').textContent = `${formatNumber(tasaPfPond, 2)}%`;
+      const varPfEl = document.getElementById('kpi-tasa-pf-var');
+      if (varIaPf !== null) {
+        const sign = varIaPf >= 0 ? '+' : '';
+        varPfEl.textContent = `${sign}${formatNumber(varIaPf, 1)} p.p. i.a.`;
+        varPfEl.className = `text-[11px] font-semibold mt-0.5 text-slate-600`;
+      } else {
+        varPfEl.textContent = '—';
+      }
+      document.getElementById('kpi-tasa-pf-ref-label').textContent = 'Mayor peso (PF 7-59d):';
+      document.getElementById('kpi-tasa-pf-ref-val').textContent = `${formatNumber(tasaPfMayorPeso, 2)}% TNA`;
+
+      // KPI 4 (Punto 6): Tipo de Cambio Com. "A" 3500 (ID 5) + Variación i.a. + Mayorista y Minorista como referencia
       const tcMay = getLatest(5).valor;
-      const tcCont = getLatest(84).valor;
       const tcMin = getLatest(4).valor;
-      const varTc30 = getVarDays(5, 30, false);
-      document.getElementById('kpi-tc-mayorista').textContent = `$ ${formatNumber(tcMay, 2)}`;
-      document.getElementById('kpi-tc-contable').textContent = `TC Contable (Valuación): $ ${formatNumber(tcCont, 2)}`;
-      const signTc = (varTc30 && varTc30 >= 0) ? '+' : '';
-      document.getElementById('kpi-tc-minorista').textContent = `$ ${formatNumber(tcMin, 2)} (${varTc30 !== null ? signTc + formatNumber(varTc30, 1) + '%' : '—'})`;
+      const varTcIa = getVarDays(5, 365, false);
 
-      // KPI 5: Inflación IPC + CER / UVA
-      const ipcMensual = getLatest(27).valor;
+      document.getElementById('kpi-tc-mayorista').textContent = `$ ${formatNumber(tcMay, 2)}`;
+      const signTc = (varTcIa !== null && varTcIa >= 0) ? '+' : '';
+      document.getElementById('kpi-tc-var-ia').textContent = varTcIa !== null ? `${signTc}${formatNumber(varTcIa, 1)}% i.a.` : '—';
+      document.getElementById('kpi-tc-refs').textContent = `$ ${formatNumber(tcMay, 2)} / $ ${formatNumber(tcMin, 2)}`;
+
+      // KPI 5 (Punto 7): Inflación IPC con Mes explícito + CER / UVA
+      const ipcLatest = getLatest(27);
       const ipcIa = getLatest(28).valor;
       const rem12 = getLatest(29).valor;
       const cerVal = getLatest(30).valor;
       const uvaVal = getLatest(31).valor;
-      document.getElementById('kpi-ipc-mensual').textContent = `${formatNumber(ipcMensual, 1)}%`;
+
+      document.getElementById('kpi-ipc-title').textContent = `IPC (${formatMonthYearName(ipcLatest.fecha)})`;
+      document.getElementById('kpi-ipc-mensual').textContent = `${formatNumber(ipcLatest.valor, 1)}%`;
       document.getElementById('kpi-ipc-interanual').textContent = `${formatNumber(ipcIa, 1)}% i.a.`;
-      document.getElementById('kpi-rem-12m').textContent = `REM 12M esperado: ${formatNumber(rem12, 1)}%`;
+      document.getElementById('kpi-rem-12m').textContent = `REM próx. 12M: ${formatNumber(rem12, 1)}% i.a.`;
       document.getElementById('kpi-cer-uva').textContent = `${formatNumber(cerVal, 1)} / $ ${formatNumber(uvaVal, 1)}`;
     }
 
@@ -980,7 +1146,13 @@
       const f1Val = document.getElementById('filter-1').value;
       const f2Val = document.getElementById('filter-2').value;
       const f3Val = document.getElementById('filter-3').value;
-      const rangeDays = parseInt(document.getElementById('filter-rango').value, 10) || 180;
+      const rangeDays = parseInt(document.getElementById('filter-rango').value, 10) || 365;
+
+      // Punto 1: Si estamos en STOCKS, guardar en estado persistente el sector y la moneda elegidos
+      if (mainGroup === 'STOCKS') {
+        selectedStockSector = f1Val;
+        selectedStockMoneda = f2Val;
+      }
 
       const f1Text = document.getElementById('filter-1').selectedOptions[0]?.textContent || '';
       const f2Text = document.getElementById('filter-2').selectedOptions[0]?.textContent || '';
@@ -1001,7 +1173,7 @@
       } else if (mainGroup === 'TASAS') {
         stocksBanner.style.display = 'none';
         rightToggles.style.display = 'none';
-        renderTasasView(f1Val, f2Val, parseInt(f3Val, 10), rangeDays);
+        renderTasasView(f1Val, f2Val, f3Val, rangeDays);
       } else {
         stocksBanner.style.display = 'none';
         rightToggles.style.display = 'none';
@@ -1011,7 +1183,6 @@
 
     // ==================== VISTA 1: STOCKS ====================
     function renderStocksView(sector, moneda, lineaKey, rangeDays) {
-      // 1. Gráficos de Stocks
       let pair = TOTAL_LOAN_IDS[sector];
       let title = 'Total de Préstamos';
       let singleIdSeries = null;
@@ -1032,11 +1203,12 @@
       }
 
       const seriesLeft = singleIdSeries || getStockSeries(pair, moneda, rangeDays);
+      const monthly = isSeriesMonthly(seriesLeft);
       document.getElementById('chart-left-title').textContent = title;
-      document.getElementById('chart-left-subtitle').textContent = `Evolución histórica diaria (${sector === 'PRIVADO' ? 'Sector Privado' : (sector === 'PUBLICO' ? 'Sector Público' : 'Total Sectores')})`;
+      document.getElementById('chart-left-subtitle').textContent = `Evolución histórica (${sector === 'TOTAL' ? 'Total Sectores' : (sector === 'PRIVADO' ? 'Sector Privado' : 'Sector Público')})`;
       document.getElementById('chart-left-badge').textContent = moneda === 'USD' ? 'Millones USD' : 'Millones $';
 
-      drawLineChart('chart-left-canvas', true, seriesLeft.map(p => formatDayMonth(p.fecha)), [{
+      drawLineChart('chart-left-canvas', true, seriesLeft.map(p => formatChartAxisDate(p.fecha, monthly)), [{
         label: title,
         data: seriesLeft.map(p => p.valor),
         borderColor: '#0284c7',
@@ -1046,7 +1218,7 @@
 
       // Gráfico Derecho: Ranking o Participación por Línea de Crédito
       document.getElementById('chart-right-title').textContent = 'Stock de Deuda Aperturado por Línea de Crédito';
-      document.getElementById('chart-right-subtitle').textContent = `Distribución de cartera por línea (${sector === 'PRIVADO' ? 'Sector Privado' : (sector === 'PUBLICO' ? 'Sector Público' : 'Total Sectores')})`;
+      document.getElementById('chart-right-subtitle').textContent = `Distribución de cartera por línea (${sector === 'TOTAL' ? 'Total Sectores' : (sector === 'PRIVADO' ? 'Sector Privado' : 'Sector Público')})`;
 
       const sorted = CREDIT_LINES.map(l => ({
         nombre: l.nombre,
@@ -1119,7 +1291,8 @@
       const totalConsumo = personales + tarjetas;
 
       const hipPren = valOf('hipotecarios') + valOf('prendarios');
-      const otrosGar = valOf('cred_documentarios') + valOf('otros_prestamos') + valOf('intereses_doc');
+      const otrosGar = valOf('cred_documentarios') + valOf('otros_prestamos');
+      const interesesDoc = valOf('intereses_doc');
       const totalGarantizado = hipPren + otrosGar;
       const grandTotal = (totalComercial + totalConsumo + totalGarantizado) || 1;
 
@@ -1138,7 +1311,7 @@
       setDetailCard(3, 'fa-house-chimney', 'Hipotecarios, Prendarios y Otros', `${formatNumber((totalGarantizado / grandTotal) * 100, 1)}% del stock`,
         'Stock Garantizados y Otros', formatStock(totalGarantizado, moneda),
         'Hipotecarios + Prendarios:', formatStock(hipPren, moneda),
-        'Otros + Intereses Doc.:', formatStock(otrosGar, moneda),
+        'Otros Prést. / Int. Doc.:', `${formatStock(otrosGar, moneda)} / ${formatStock(interesesDoc, moneda)}`,
         'Tasas TNA (Hip. / Prend. / UVA):', `${formatNumber(getLatest(1217).valor, 1)}% / ${formatNumber(getLatest(1218).valor, 1)}% / UVA ${formatNumber(getLatest(1240).valor, 1)}%`);
 
       // 3. Actualizar Banner de Participación (solo en STOCKS)
@@ -1162,7 +1335,7 @@
       const pCom = (totalComercial / grandTotal) * 100;
       const pCon = (totalConsumo / grandTotal) * 100;
       const pGar = (totalGarantizado / grandTotal) * 100;
-      document.getElementById('banner-mix-sector-name').textContent = sector === 'PRIVADO' ? 'Sector Privado' : (sector === 'PUBLICO' ? 'Sector Público' : 'Total Sectores');
+      document.getElementById('banner-mix-sector-name').textContent = sector === 'TOTAL' ? 'Total Sectores' : (sector === 'PRIVADO' ? 'Sector Privado' : 'Sector Público');
       document.getElementById('banner-mix-summary').textContent = `Comercial ${formatNumber(pCom, 1)}% · Consumo ${formatNumber(pCon, 1)}% · Resto ${formatNumber(pGar, 1)}%`;
       document.getElementById('banner-bar-comercial').style.width = `${pCom}%`;
       document.getElementById('banner-bar-consumo').style.width = `${pCon}%`;
@@ -1173,15 +1346,20 @@
     }
 
     // ==================== VISTA 2: TASAS ====================
-    function renderTasasView(subgrupo, seg, selectedId, rangeDays) {
+    function renderTasasView(subgrupo, seg, selectedIdRaw, rangeDays) {
+      const selectedId = selectedIdRaw === 'POND_ACTIVA' ? 'POND_ACTIVA' : parseInt(selectedIdRaw, 10);
       const itemFoco = TASAS_ITEMS.find(t => t.id === selectedId) || TASAS_ITEMS[0];
-      const seriesLeft = filterSeriesByDays(varHistory[String(itemFoco.id)] || [], rangeDays);
+      const isMonthly = isSeriesMonthly(varHistory[String(itemFoco.id)] || [], itemFoco.id);
+      const effectiveDays = isMonthly ? Math.max(rangeDays, 365) : rangeDays;
+      const seriesLeft = filterSeriesByDays(varHistory[String(itemFoco.id)] || [], effectiveDays);
 
       document.getElementById('chart-left-title').textContent = itemFoco.label;
-      document.getElementById('chart-left-subtitle').textContent = 'Evolución histórica de la tasa seleccionada (% TNA / % TEA)';
+      document.getElementById('chart-left-subtitle').textContent = itemFoco.id === 'POND_ACTIVA'
+        ? 'Evolución diaria de la tasa activa promedio ponderada por el peso de cada línea en el stock'
+        : `Evolución histórica de la tasa seleccionada (${isMonthly ? 'Serie Mensual' : 'Serie Diaria'})`;
       document.getElementById('chart-left-badge').textContent = '% Anual';
 
-      drawLineChart('chart-left-canvas', true, seriesLeft.map(p => formatDayMonth(p.fecha)), [{
+      drawLineChart('chart-left-canvas', true, seriesLeft.map(p => formatChartAxisDate(p.fecha, isMonthly)), [{
         label: itemFoco.label,
         data: seriesLeft.map(p => Number(p.valor)),
         borderColor: itemFoco.color || '#4f46e5',
@@ -1198,8 +1376,8 @@
       const sortedTasas = [...groupItems].sort((a, b) => getLatest(b.id).valor - getLatest(a.id).valor);
 
       const groupNames = {
-        ACTIVAS: 'Tasas Activas por Línea de Crédito',
-        PLAZO_FIJO: 'Tasas Pasivas de Plazos Fijos y Depósitos',
+        ACTIVAS: 'Tasas Activas por Línea de Crédito y Ponderada (% TNA)',
+        PLAZO_FIJO: 'Tasas Pasivas de Plazos Fijos y Depósitos (% TNA)',
         MAYORISTAS: 'Tasas Mayoristas (BADLAR, TM20 y TAMAR)',
         ALL: 'Nivel Actual de Tasas Bancarias (% TNA)'
       };
@@ -1234,23 +1412,30 @@
         }
       });
 
-      // Actualizar las 3 Tarjetas de Detalle para TASAS
+      // Actualizar las 3 Tarjetas de Detalle para TASAS (con variaciones interanuales en p.p.)
       document.getElementById('cards-section-title').textContent = 'Detalle de Tasas Activas y Pasivas del Sistema Financiero';
       document.getElementById('cards-section-subtitle').textContent = 'Tasas de Líneas de Crédito | Plazos Fijos Minoristas y General | Tasas Mayoristas e Institucionales';
 
-      setDetailCard(1, 'fa-credit-card', 'Tasas Activas (Líneas de Crédito)', 'Cartera Activa',
-        'Préstamos Personales / Tarjetas', `${formatNumber(getLatest(14).valor, 2)}% / ${formatNumber(getLatest(1215).valor, 2)}%`,
-        'Adelantos Cta. Cte. (Emp./Fija):', `${formatNumber(getLatest(13).valor, 2)}% / ${formatNumber(getLatest(1199).valor, 2)}%`,
-        'Documentos a Sola Firma:', `${formatNumber(getLatest(1216).valor, 2)}% TNA`,
+      const diffActPond = getVarDays('POND_ACTIVA', 365, true);
+      const diffPfPond = getVarDays(1189, 365, true);
+      const diffBadlar = getVarDays(7, 365, true);
+
+      setDetailCard(1, 'fa-credit-card', 'Tasas Activas (Líneas de Crédito)',
+        diffActPond !== null ? `${diffActPond >= 0 ? '+' : ''}${formatNumber(diffActPond, 1)} p.p. i.a.` : 'Cartera Activa',
+        'Tasa Activa Ponderada por Stock', `${formatNumber(getLatest('POND_ACTIVA').valor, 2)}% TNA`,
+        'Personales / Tarjetas:', `${formatNumber(getLatest(14).valor, 1)}% / ${formatNumber(getLatest(1215).valor, 1)}%`,
+        'Adelantos / Doc. Sola Firma:', `${formatNumber(getLatest(13).valor, 1)}% / ${formatNumber(getLatest(1216).valor, 1)}%`,
         'Hipotecarios (Fija / UVA) y Prend.:', `${formatNumber(getLatest(1217).valor, 1)}% / ${formatNumber(getLatest(1240).valor, 1)}% / ${formatNumber(getLatest(1218).valor, 1)}%`);
 
-      setDetailCard(2, 'fa-piggy-bank', 'Plazos Fijos (Total e Individuos)', 'Costo Fondeo Minorista',
-        'Tasa Plazo Fijo Total en Pesos', `${formatNumber(getLatest(1189).valor, 2)}% TNA`,
+      setDetailCard(2, 'fa-piggy-bank', 'Plazos Fijos (Total e Individuos)',
+        diffPfPond !== null ? `${diffPfPond >= 0 ? '+' : ''}${formatNumber(diffPfPond, 1)} p.p. i.a.` : 'Costo Fondeo',
+        'Tasa Pasiva Ponderada (Total PF $)', `${formatNumber(getLatest(1189).valor, 2)}% TNA`,
         'PF Personas Humanas ($):', `${formatNumber(getLatest(1190).valor, 2)}% TNA`,
-        'Depósitos a 30 días / 60+ días:', `${formatNumber(getLatest(12).valor, 2)}% / ${formatNumber(getLatest(1208).valor, 2)}%`,
+        'Tramo 7-59d / 60+ días:', `${formatNumber(getLatest(1205).valor, 2)}% / ${formatNumber(getLatest(1208).valor, 2)}%`,
         'Plazo Fijo UVA / Plazo Fijo USD:', `${formatNumber(getLatest(1227).valor, 2)}% / ${formatNumber(getLatest(1193).valor, 2)}%`);
 
-      setDetailCard(3, 'fa-building-columns', 'Tasas Mayoristas y Corporativas', 'Tramos Mayoristas',
+      setDetailCard(3, 'fa-building-columns', 'Tasas Mayoristas y Corporativas',
+        diffBadlar !== null ? `BADLAR ${diffBadlar >= 0 ? '+' : ''}${formatNumber(diffBadlar, 1)} p.p. i.a.` : 'Tramos Mayoristas',
         'BADLAR Bancos Privados (TNA / TEA)', `${formatNumber(getLatest(7).valor, 2)}% / ${formatNumber(getLatest(35).valor, 2)}%`,
         'TM20 Privados (+20M):', `${formatNumber(getLatest(8).valor, 2)}% TNA`,
         'TAMAR Privados (+1.000M):', `${formatNumber(getLatest(44).valor, 2)}% TNA`,
@@ -1260,43 +1445,50 @@
     // ==================== VISTA 3: ÍNDICES Y TIPO DE CAMBIO ====================
     function renderIndicesView(familia, modoVisual, selectedId, rangeDays) {
       const itemFoco = INDICES_ITEMS.find(i => i.id === selectedId) || INDICES_ITEMS[0];
-      const effectiveDays = familia === 'IPC' ? Math.max(rangeDays, 365) : rangeDays;
+      const isMonthly = isSeriesMonthly(varHistory[String(itemFoco.id)] || [], itemFoco.id);
+      const effectiveDays = isMonthly ? Math.max(rangeDays, 365) : rangeDays;
       const rawSeries = filterSeriesByDays(varHistory[String(itemFoco.id)] || [], effectiveDays);
 
       let plotSeries = rawSeries.map(p => ({ fecha: p.fecha, valor: Number(p.valor) }));
       let badgeUnit = itemFoco.unit;
 
-      if (modoVisual === 'VAR30' && rawSeries.length > 2 && familia !== 'IPC') {
+      if (modoVisual === 'VAR_IA' && rawSeries.length > 2 && familia !== 'IPC') {
         const allHist = varHistory[String(itemFoco.id)] || [];
         plotSeries = rawSeries.map(p => {
-          const idx = allHist.findIndex(x => x.fecha === p.fecha);
-          const refIdx = Math.max(0, idx - 22);
-          const refVal = Number(allHist[refIdx]?.valor || p.valor);
+          const target = new Date(new Date(p.fecha).getTime() - 365 * 86400 * 1000);
+          let refVal = Number(allHist[0]?.valor || p.valor);
+          for (let i = allHist.length - 1; i >= 0; i--) {
+            if (new Date(allHist[i].fecha) <= target) {
+              refVal = Number(allHist[i].valor);
+              break;
+            }
+          }
           const pct = refVal > 0 ? ((Number(p.valor) - refVal) / refVal) * 100 : 0;
           return { fecha: p.fecha, valor: pct };
         });
-        badgeUnit = 'Var. % (30d)';
+        badgeUnit = 'Var. % i.a.';
       }
 
       document.getElementById('chart-left-title').textContent = itemFoco.label;
-      document.getElementById('chart-left-subtitle').textContent = modoVisual === 'VAR30' && familia !== 'IPC'
-        ? 'Variación porcentual acumulada móvil a 30 días'
-        : 'Evolución histórica oficial publicada por el BCRA';
+      document.getElementById('chart-left-subtitle').textContent = modoVisual === 'VAR_IA' && familia !== 'IPC'
+        ? 'Variación porcentual interanual (365 días)'
+        : `Evolución histórica oficial publicada por el BCRA (${isMonthly ? 'Periodicidad Mensual' : 'Periodicidad Diaria'})`;
       document.getElementById('chart-left-badge').textContent = badgeUnit;
 
-      drawLineChart('chart-left-canvas', true, plotSeries.map(p => formatDayMonth(p.fecha)), [{
+      drawLineChart('chart-left-canvas', true, plotSeries.map(p => formatChartAxisDate(p.fecha, isMonthly)), [{
         label: itemFoco.label,
         data: plotSeries.map(p => p.valor),
         borderColor: itemFoco.color,
         backgroundColor: 'rgba(139, 92, 246, 0.12)',
         fill: true
-      }], v => modoVisual === 'VAR30' && familia !== 'IPC' ? `${formatNumber(v, 1)}%` : `${itemFoco.prefix}${formatNumber(v, 2)}${itemFoco.suffix}`);
+      }], v => modoVisual === 'VAR_IA' && familia !== 'IPC' ? `${formatNumber(v, 1)}% i.a.` : `${itemFoco.prefix}${formatNumber(v, 2)}${itemFoco.suffix}`);
 
       // Gráfico Derecho: Dinámica comparada de toda la familia seleccionada
       const famItems = INDICES_ITEMS.filter(i => i.familia === familia);
+      const famIsMonthly = isSeriesMonthly(varHistory[String(famItems[0].id)] || [], famItems[0].id);
       const baseHistory = filterSeriesByDays(varHistory[String(famItems[0].id)] || [], effectiveDays);
       const dateKeys = baseHistory.map(p => p.fecha);
-      const labelsRight = dateKeys.map(d => formatDayMonth(d));
+      const labelsRight = dateKeys.map(d => formatChartAxisDate(d, famIsMonthly));
 
       const datasetsRight = famItems.map(cfg => {
         const h = varHistory[String(cfg.id)] || [];
@@ -1320,12 +1512,14 @@
       });
 
       const famTitles = {
-        TC: 'Comparativa de Tipos de Cambio y Bandas Cambiarias ($/USD)',
+        TC: 'Comparativa de Tipos de Cambio (Com. A 3500, Minorista, Contable y Bandas)',
         IPC: 'Evolución de Inflación Mensual, Interanual y Expectativa REM (%)',
         CER_UVA: 'Evolución Comparada de Coeficientes CER y UVA'
       };
       document.getElementById('chart-right-title').textContent = famTitles[familia];
-      document.getElementById('chart-right-subtitle').textContent = 'Series superpuestas para evaluar la dinámica conjunta del grupo';
+      document.getElementById('chart-right-subtitle').textContent = famIsMonthly
+        ? 'Series mensuales expresadas en formato Mes/Año (MM/AAAA)'
+        : 'Series diarias superpuestas para evaluar la dinámica conjunta del grupo';
 
       const ctxR = document.getElementById('chart-right-canvas').getContext('2d');
       if (chartRightInstance) chartRightInstance.destroy();
@@ -1346,31 +1540,35 @@
         }
       });
 
-      // Actualizar las 3 Tarjetas de Detalle para ÍNDICES Y TC
+      // Actualizar las 3 Tarjetas de Detalle para ÍNDICES Y TC (con variaciones interanuales)
       document.getElementById('cards-section-title').textContent = 'Resumen de Tipo de Cambio, Inflación (IPC) e Indexadores Bancarios';
-      document.getElementById('cards-section-subtitle').textContent = 'Cotizaciones y Valuación Contable | Inflación IPC y REM | Coeficientes CER y UVA';
+      document.getElementById('cards-section-subtitle').textContent = 'Cotizaciones Com. A 3500 y Minorista | Inflación IPC y REM | Coeficientes CER y UVA';
 
-      const varTcMay30 = getVarDays(5, 30, false);
-      const varUva30 = getVarDays(31, 30, false);
-      const varCer30 = getVarDays(30, 30, false);
+      const varTcMayIa = getVarDays(5, 365, false);
+      const varUvaIa = getVarDays(31, 365, false);
+      const varCerIa = getVarDays(30, 365, false);
+      const ipcLatest = getLatest(27);
 
-      setDetailCard(1, 'fa-dollar-sign', 'Tipo de Cambio y Bandas', `Var. 30d: ${varTcMay30 !== null ? (varTcMay30 >= 0 ? '+' : '') + formatNumber(varTcMay30, 1) + '%' : '—'}`,
-        'Mayorista (Com. A 3500) / Contable', `$ ${formatNumber(getLatest(5).valor, 2)} / $ ${formatNumber(getLatest(84).valor, 2)}`,
+      setDetailCard(1, 'fa-dollar-sign', 'Tipo de Cambio (Com. A 3500)',
+        `Var. i.a.: ${varTcMayIa !== null ? (varTcMayIa >= 0 ? '+' : '') + formatNumber(varTcMayIa, 1) + '%' : '—'}`,
+        'TC Mayorista Referencia (Com. A 3500)', `$ ${formatNumber(getLatest(5).valor, 2)}`,
         'TC Minorista Promedio:', `$ ${formatNumber(getLatest(4).valor, 2)}`,
         'TC Valuación Contable BCRA:', `$ ${formatNumber(getLatest(84).valor, 2)}`,
         'Bandas Cambiarias (Inf. / Sup.):', `$ ${formatNumber(getLatest(1187).valor, 2)} — $ ${formatNumber(getLatest(1188).valor, 2)}`);
 
-      setDetailCard(2, 'fa-chart-line', 'Inflación IPC Nacional y REM', `Dato al ${formatDateShort(getLatest(27).fecha)}`,
-        'Inflación Mensual (IPC INDEC)', `${formatNumber(getLatest(27).valor, 1)}% mensual`,
+      setDetailCard(2, 'fa-chart-line', `Inflación IPC (${formatMonthYearName(ipcLatest.fecha)})`,
+        `Período: ${formatChartAxisDate(ipcLatest.fecha, true)}`,
+        'Inflación Mensual (IPC Nacional)', `${formatNumber(ipcLatest.valor, 1)}% mensual`,
         'Inflación Interanual (IPC):', `${formatNumber(getLatest(28).valor, 1)}% i.a.`,
         'Expectativa REM (Próx. 12M):', `${formatNumber(getLatest(29).valor, 1)}% i.a.`,
-        'Impacto en Recaudación:', 'Base de devengamiento real');
+        'Referencia de Precios:', 'INDEC / API BCRA');
 
-      setDetailCard(3, 'fa-scale-unbalanced-flip', 'Indexadores Bancarios (CER y UVA)', `Ajuste 30d: +${formatNumber(varUva30 || 0, 1)}%`,
+      setDetailCard(3, 'fa-scale-unbalanced-flip', 'Indexadores Bancarios (CER y UVA)',
+        `UVA i.a.: +${formatNumber(varUvaIa || 0, 1)}%`,
         'Unidad de Valor Adquisitivo (UVA)', `$ ${formatNumber(getLatest(31).valor, 2)}`,
         'Coeficiente CER Actual:', `${formatNumber(getLatest(30).valor, 2)}`,
-        'Variación Mensual CER / UVA:', `+${formatNumber(varCer30 || 0, 2)}% / +${formatNumber(varUva30 || 0, 2)}%`,
-        'Variación Anual UVA (365d):', `+${formatNumber(getVarDays(31, 365, false) || 0, 1)}%`);
+        'Variación Interanual CER:', `+${formatNumber(varCerIa || 0, 1)}% i.a.`,
+        'Variación Interanual UVA:', `+${formatNumber(varUvaIa || 0, 1)}% i.a.`);
     }
 
     // Helper para dibujar el gráfico izquierdo de serie histórica
@@ -1456,16 +1654,18 @@
       document.getElementById('filter-3').addEventListener('change', refreshDashboard);
       document.getElementById('filter-rango').addEventListener('change', refreshDashboard);
 
-      // Botón Restablecer
+      // Botón Restablecer (vuelve a Total Sectores, ARS y 12M)
       document.getElementById('btn-reset-filters').addEventListener('click', () => {
         mainGroup = 'STOCKS';
+        selectedStockSector = 'TOTAL';
+        selectedStockMoneda = 'ARS';
         document.querySelectorAll('.main-group-btn').forEach(b => {
           const isStocks = b.getAttribute('data-main-group') === 'STOCKS';
           b.className = isStocks
             ? 'main-group-btn px-3 py-1.5 rounded-lg text-xs font-bold transition bg-sky-600 text-white shadow-sm flex items-center gap-1.5'
             : 'main-group-btn px-3 py-1.5 rounded-lg text-xs font-semibold transition text-slate-600 hover:text-slate-900 flex items-center gap-1.5';
         });
-        document.getElementById('filter-rango').value = '180';
+        document.getElementById('filter-rango').value = '365';
         configureControlsForMainGroup();
         refreshDashboard();
       });
